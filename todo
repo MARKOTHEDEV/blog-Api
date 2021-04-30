@@ -1,0 +1,49 @@
+Todo --- 
+
+Steps to do
+
+    first create a model -- done with model
+    i have not added restframe work to the project i need to pip install it
+    second create functionaLity of each model
+
+
+
+Name:NewSky Blog
+
+
+
+
+
+
+WHat to do 
+auth user:
+    blog:
+        create blog post
+        create blog post
+        delete thier  blog post
+        update thier  blog post
+
+
+    profile:
+        userImage
+        bio
+
+unauth user:
+    just read blog post only 
+    and comment as an anonymous user
+
+
+
+blog:
+    blog post categories:
+                        life style
+                        entertianement ... will google more categories
+
+    blog title
+    blog post
+    blog comment (foreign Key)
+
+
+Blog comment:
+    user = can be a auth user or not 
+    comment_post 
