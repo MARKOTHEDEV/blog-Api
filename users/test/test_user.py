@@ -2,9 +2,10 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from django.urls import reverse
 from rest_framework import status
+from django.contrib.auth import get_user_model
 
 
-CREATE_USER = reverse('user_profile')
+CREATE_USER = reverse('user_profile-list')
 
 
 
@@ -18,8 +19,13 @@ class TestAllUser(TestCase):
     def test_create_user(self):
         'this method create a user successfully'
         payload = {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}
-        resp = self.client.post(CREATE_USER,payload) 
+        resp = self.client.post(CREATE_USER,payload)
 
+        user = get_user_model().objects.get(email=payload.get('email'))
+
+        checkPassword = user.check_password(payload.get('password'))
+  
+        self.assertTrue(checkPassword)
         self.assertEqual(resp.status_code,status.HTTP_201_CREATED)
 
     def test_create_user_bad_input(self):

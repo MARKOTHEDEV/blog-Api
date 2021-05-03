@@ -31,7 +31,7 @@ class Myuser(AbstractBaseUser,PermissionsMixin):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=300)
     image = models.ImageField(upload_to='userImage/%d/',default='user.jpg')
-    bio = models.TextField()
+    bio = models.TextField(blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
