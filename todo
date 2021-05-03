@@ -2,11 +2,15 @@ Todo ---
 
 Steps to do
 
-    first create a model -- done with model
+    first create a model -- done with model -- done
     i have not added restframe work to the project i need to pip install it
-    second create functionaLity of each model
+    second create functionaLity of each model:
+	crud user functionality--allow only owners to update thier profile
+	login user
+	
+	
 
-
+	
 
 Name:NewSky Blog
 
