@@ -17,9 +17,9 @@ class MyuserManager(BaseUserManager):
 
         return user
     
-    def create_superuser(self,email,name,password=None):
+    def create_superuser(self,email,password=None):
         'when we call the create_user it returns a newly created instance all we need to do is to attach so permiisions to it'
-        user = self.create_user(email=email,name=name,password=password)
+        user = self.create_user(email=email,name='Superuser',password=password)
         user.is_staff = True
         user.is_superuser =True
         user.save(using=self._db)
