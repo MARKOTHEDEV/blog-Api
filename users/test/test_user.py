@@ -5,8 +5,13 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 
 
-CREATE_USER = reverse('user_profile-list')
+CREATE_USER = reverse('create-user-list')
 LOGIN_URL = reverse('user_login')
+
+
+def GET_USER_PROFILE(pk):
+    'this is a url but it needs a parameter tha why i put it in a funtion'
+    return reverse('myuser-detail',args=[pk])
 
 def create_user(**kwargs):
     'this function helps us create a user it jus an helper function that prevent us from writing reated code'
@@ -74,6 +79,16 @@ class TestAllUser(TestCase):
         self.assertEqual(resp.status_code,status.HTTP_400_BAD_REQUEST)
 
 
+    def test_unauthuser_login_with_bad_password(self):
+        'this test login a created user with bad password'
+ 
+        # now is time for the user to login with the right credentials
+        # note this user is  not created 
+        resp = self.client.post(LOGIN_URL,{'email':'marko2@gmail.com','password':'YouCeoeie8454e'})
+
+        self.assertEqual(resp.status_code,status.HTTP_400_BAD_REQUEST)
+
+
 
 class TestAuthUser(TestCase):
 
@@ -84,4 +99,11 @@ class TestAuthUser(TestCase):
         self.client.force_authenticate(self.user)
 
 
-    
+    def test_authUser_retrevie_his_profile(self):
+        'this function test the authuser it allows him to get his profile successfully'
+        # print(GET_USER_PROFILE(self.user.id))
+        resp = self.client.get(GET_USER_PROFILE(self.user.id))
+
+     
+        self.assertEqual(resp.status_code,status.HTTP_200_OK)
+
