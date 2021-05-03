@@ -1,9 +1,9 @@
-from rest_framework.serializers import ModelSerializer
-from django.contrib.auth import get_user_model
+from rest_framework import  serializers
+from django.contrib.auth import get_user_model,authenticate
 
 
 
-class CreateUserSerializer(ModelSerializer):
+class CreateUserSerializer(serializers.ModelSerializer):
 
 
     def create(self,validate_data):
@@ -22,3 +22,24 @@ class CreateUserSerializer(ModelSerializer):
                         'password':{'write_only':True,'min_length':5,'style':{'input_type':'password'}},
                         
                         }
+
+
+class LoginSerializer(serializers.Serializer):
+
+    email = serializers.EmailField()
+    password =serializers.CharField(min_length=5)
+
+
+    def validate(self,data):
+        email =  data.get('email')
+        password = data.get('password',None)
+
+        
+        user = authenticate(username=email,password=password)
+
+        if user is  None:
+            raise serializers.ValidationError(detail='User Does Not Exits Or Wrong Password')
+
+        data['user'] = user
+       
+        return data

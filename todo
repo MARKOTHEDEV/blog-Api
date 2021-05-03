@@ -28,7 +28,7 @@ auth user:
         update thier  blog post
 
 
-    profile:
+    profile auth user can acces his profile and read update and delete:
         userImage
         bio
 

@@ -8,6 +8,7 @@ route.register('',views.CreateUser,basename='user_profile')
 
 
 urlpatterns = [
-    path('create-user/',include(route.urls))
+    path('create-user/',include(route.urls)),
+    path('login/',views.LoginUser.as_view(),name='user_login')
 ]
 
