@@ -1,6 +1,6 @@
 from rest_framework import  serializers
 from django.contrib.auth import get_user_model,authenticate
-
+from . import permissions as mypermissions
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -28,13 +28,29 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 
 
+    def update(self,instance, validated_data):
+        password = validated_data.pop('password',None)
+        # print(password)
+        if password is not None:
+            instance.set_password(password)
+        
+        instance.save()
+
+        return instance
+
     class Meta:
         model = get_user_model()
-        fields = ('name','password','email','name','image','bio')
+        fields = ('id','name','password','email','name','image','bio')
         extra_kwargs = {
-                        'password':{'read_only':True},
+                        'password':{'write_only':True},
+                        'id':{'read_only':True},
+                        'image':{'read_only':True}
                         }
+class UserProfileImageSerializer(serializers.ModelSerializer):
 
+    class Meta:
+        model = get_user_model()
+        fields = ('image',)
 
 
 class LoginSerializer(serializers.Serializer):

@@ -31,8 +31,8 @@ auth user:
     profile auth user can acces his profile and read update and delete:
         done with create user
         done with retrive user
-        not done with delete user
         not done with update user
+        not done with delete user
         userImage
         bio
 

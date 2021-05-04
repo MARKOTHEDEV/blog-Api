@@ -114,3 +114,17 @@ class TestAuthUser(TestCase):
      
         self.assertEqual(resp.status_code,status.HTTP_200_OK)
 
+
+    def  test_update_user_profile(self):
+        'this function test the user to update authuser profile successfully'
+        payload = {'name':'matthew1','email':'matthew@gmail.com','password':'YouCrazyWIthProgrammingokaywithjavascript'}
+        
+        resp = self.client.put(GET_USER_PROFILE(self.user.id),payload)
+
+        self.assertEqual(resp.status_code,status.HTTP_200_OK)
+        # print(resp.data)
+        IsuserExits = get_user_model().objects.filter(email=resp.data['email']).exists()
+        user = get_user_model().objects.get(email=resp.data['email'])
+        
+        self.assertTrue(user.check_password(payload.get('password')))
+        self.assertTrue(IsuserExits)
