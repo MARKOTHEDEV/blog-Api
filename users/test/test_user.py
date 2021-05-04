@@ -88,7 +88,14 @@ class TestAllUser(TestCase):
 
         self.assertEqual(resp.status_code,status.HTTP_400_BAD_REQUEST)
 
+    def test_unauthUser_retrevie_his_profile(self):
+        'this function test the authuser it allows him to get his profile unsuccessfully'
+        payload = {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}
+        user = create_user(**payload)
+        # print(GET_USER_PROFILE(self.user.id))
+        resp = self.client.get(GET_USER_PROFILE(user.id))
 
+        self.assertEqual(resp.status_code,status.HTTP_401_UNAUTHORIZED)
 
 class TestAuthUser(TestCase):
 
