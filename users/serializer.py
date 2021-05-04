@@ -46,6 +46,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
                         'id':{'read_only':True},
                         'image':{'read_only':True}
                         }
+
+                        
 class UserProfileImageSerializer(serializers.ModelSerializer):
 
     class Meta:

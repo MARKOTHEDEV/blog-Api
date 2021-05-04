@@ -116,6 +116,7 @@ class TestAuthUser(TestCase):
 
 
     def  test_update_user_profile(self):
+        'full updated'
         'this function test the user to update authuser profile successfully'
         payload = {'name':'matthew1','email':'matthew@gmail.com','password':'YouCrazyWIthProgrammingokaywithjavascript'}
         
@@ -128,3 +129,13 @@ class TestAuthUser(TestCase):
         
         self.assertTrue(user.check_password(payload.get('password')))
         self.assertTrue(IsuserExits)
+
+    def test_unauth_user_update_profile(self):
+        'test if unauth user can upate thier proifile'
+        payload = {'name':'matthew1','email':'matthew@gmail.com','password':'YouCrazyWIthProgrammingokaywithjavascript'}
+        user = create_user(**payload)
+
+        resp = self.client.patch(GET_USER_PROFILE(self.user.id),payload)
+        
+
+        self.assertEqual(resp.status_code,status.HTTP_400_BAD_REQUEST)
