@@ -36,6 +36,11 @@ class ProfileViewSet(ModelViewSet):
         
         return self.serializer_class
 
+    # def update(self, request, *args, **kwargs):
+    #     kwargs['partial'] = True
+    #     return super().update(request, *args, **kwargs)
+
+
 
     @action(detail=True,methods=['post',],url_path='upload_image')
     def upload_imageAction(self, request, pk=None):

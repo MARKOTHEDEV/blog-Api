@@ -21,9 +21,10 @@ def create_user(**kwargs):
 
 class TestAllUser(TestCase):
     'this class test the unauth user and authuser'
-
+    # not the user are not authticated
     def setUp(self):
         self.client = APIClient()
+
 
 
     def test_create_user(self):
@@ -97,6 +98,19 @@ class TestAllUser(TestCase):
 
         self.assertEqual(resp.status_code,status.HTTP_401_UNAUTHORIZED)
 
+    def test_unauth_user_update_profile_fully(self):
+        'test if unauth user can upate thier proifile'
+        payload = {'name':'matthew1','email':'matthew@gmail.com','password':'YouCrazyWIthProgrammingokaywithjavascript'}
+        user = create_user(**payload)
+
+        resp = self.client.patch(GET_USER_PROFILE(user.id),payload)
+        
+
+        self.assertEqual(resp.status_code,status.HTTP_401_UNAUTHORIZED)
+
+
+
+
 class TestAuthUser(TestCase):
 
     def setUp(self):
@@ -115,27 +129,36 @@ class TestAuthUser(TestCase):
         self.assertEqual(resp.status_code,status.HTTP_200_OK)
 
 
-    def  test_update_user_profile(self):
+    def  test_update_user_profile_partiallUpdate(self):
         'full updated'
         'this function test the user to update authuser profile successfully'
-        payload = {'name':'matthew1','email':'matthew@gmail.com','password':'YouCrazyWIthProgrammingokaywithjavascript'}
+        payload = {'name':'matthew1','email':'matthew@gmail.com'}
         
-        resp = self.client.put(GET_USER_PROFILE(self.user.id),payload)
+        resp = self.client.patch(GET_USER_PROFILE(self.user.id),payload)
 
         self.assertEqual(resp.status_code,status.HTTP_200_OK)
         # print(resp.data)
         IsuserExits = get_user_model().objects.filter(email=resp.data['email']).exists()
         user = get_user_model().objects.get(email=resp.data['email'])
-        
-        self.assertTrue(user.check_password(payload.get('password')))
+        print(user.name,user.email)
         self.assertTrue(IsuserExits)
 
-    def test_unauth_user_update_profile(self):
-        'test if unauth user can upate thier proifile'
+
+    
+    def  test_update_user_profile_fullupdate(self):
         payload = {'name':'matthew1','email':'matthew@gmail.com','password':'YouCrazyWIthProgrammingokaywithjavascript'}
-        user = create_user(**payload)
 
-        resp = self.client.patch(GET_USER_PROFILE(self.user.id),payload)
+        # user = create_user(**payload)
+
+        resp = self.client.put(GET_USER_PROFILE(self.user.id),payload)
+        # print(resp.__dict__)
         
+        self.assertEqual(resp.status_code,status.HTTP_200_OK)
 
-        self.assertEqual(resp.status_code,status.HTTP_400_BAD_REQUEST)
+        
+        user = get_user_model().objects.get(email=resp.data['email'])
+        self.assertTrue(user.check_password(payload.get('password')))
+        IsuserExits = get_user_model().objects.filter(email=resp.data['email']).exists()
+        user = get_user_model().objects.get(email=resp.data['email'])
+
+        self.assertTrue(IsuserExits)

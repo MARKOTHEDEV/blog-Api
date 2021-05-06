@@ -33,8 +33,8 @@ auth user:
         done with retrive user
         done with update user 
         done with delete user
-        done userImage
-        done bio
+        done userImage -- done
+        done bio --done
 
 unauth user:
     just read blog post only 
@@ -43,7 +43,7 @@ unauth user:
 
 
 blog:
-    blog post categories:
+    blog post categories: --done
                         life style
                         entertianement ... will google more categories
 

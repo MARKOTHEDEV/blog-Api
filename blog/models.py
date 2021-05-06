@@ -4,8 +4,13 @@ from django.contrib.auth import get_user_model
 
 # Create your models here.
 
+
+# post categories
 class PostType(models.Model):
-    'this model let the blog website so in feature we can add more blog post'
+    '''
+    this model let the blog website so in feature we can add more blog post
+    postType can be => e.g entertainment,programming ,education e.t.c
+    '''
     name = models.CharField(max_length=300)
 
     def __str__(self):

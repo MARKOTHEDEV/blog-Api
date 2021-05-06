@@ -30,11 +30,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def update(self,instance, validated_data):
         password = validated_data.pop('password',None)
-        # print(password)
+        user = super().update(instance,validated_data)
         if password is not None:
-            instance.set_password(password)
-        
-        instance.save()
+            user.set_password(password)        
+            user.save()
+        # print(instance)
 
         return instance
 
