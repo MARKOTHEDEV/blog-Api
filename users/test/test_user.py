@@ -140,7 +140,6 @@ class TestAuthUser(TestCase):
         # print(resp.data)
         IsuserExits = get_user_model().objects.filter(email=resp.data['email']).exists()
         user = get_user_model().objects.get(email=resp.data['email'])
-        print(user.name,user.email)
         self.assertTrue(IsuserExits)
 
 
