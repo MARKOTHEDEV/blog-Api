@@ -24,8 +24,13 @@ auth user:
     blog:
         Note i have not tested it in the drsf interface
         create blog post --done
-        delete thier  blog post --done
+        delete thier  blog post --done:
+                test if any author can delete -- done
+                 or update another author post
         update thier  blog post -- done
+
+    Comment:
+        
 
 
     profile auth user can acces his profile and read update and delete:

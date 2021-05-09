@@ -53,6 +53,42 @@ class TestBlogAuthUser(TestCase):
         self.assertEqual(resp.status_code,status.HTTP_200_OK)
         self.assertEqual(resp.data.get('title'),'Yo(Updated by marko)')
 
+    def test_if_anyAuth_user_can_delete_post_that_are_not_thier_own(self):
+        'this test if any body can delete a author post'
+
+        """
+            Steps:
+                we create a 2 author
+                we create a post with author 1 when he was logged in 
+                we logged author 1 out
+                we logged in auhor two and test if author 2 can delete author 1 post
+
+                IT RETUNRS HTTP_403_FORBIDDEN
+        """
+        payload = {'name':'matthew','email':'newUser@gmail.com','password':'YouCrazyWIthProgramming'}
+        # this new user has no right to delete another user post so we gonna test that
+        newUser = create_user(**payload)
+        # now we created a blog post using the self.user as the author of this blog post
+        # now we will test if another user can delete
+        blogpost = {'title':'heloo world','blogPost':'thedhbfdbfrd'}
+        # we have created the blog so now let try to update it
+        createBlogResp =   self.client.post(CREATE_POST_URL,blogpost)
+        self.assertEqual(createBlogResp.status_code,status.HTTP_201_CREATED)
+
+
+        # now let log in the new user
+        # and try to delete another Author blog post 
+
+        self.client.force_authenticate(newUser)
+        
+        deleteBlogPostresp = self.client.delete(update_post_url(createBlogResp.data.get('id')))
+        self.assertEqual(deleteBlogPostresp.status_code,status.HTTP_403_FORBIDDEN)
+        self.assertTrue(models.Blog.objects.filter(id=createBlogResp.data.get('id')).exists())
+
+        
+
+
+
 
     def test_delete_post(self):
         'this post helps test deletion of post'
