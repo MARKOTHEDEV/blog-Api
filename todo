@@ -22,10 +22,10 @@ Name:NewSky Blog
 WHat to do 
 auth user:
     blog:
-        create blog post
-        create blog post
-        delete thier  blog post
-        update thier  blog post
+        Note i have not tested it in the drsf interface
+        create blog post --done
+        delete thier  blog post --done
+        update thier  blog post -- done
 
 
     profile auth user can acces his profile and read update and delete:
