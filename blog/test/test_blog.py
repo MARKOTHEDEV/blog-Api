@@ -53,6 +53,24 @@ class TestBlogAuthUser(TestCase):
         self.assertEqual(resp.status_code,status.HTTP_200_OK)
         self.assertEqual(resp.data.get('title'),'Yo(Updated by marko)')
 
+
+    def test_if_anyAuth_user_can_update_post_that_are_not_thier_own(self):
+        blogpost = {'title':'heloo world','blogPost':'thedhbfdbfrd'}
+        # create_blogpost(**blogpost)
+        # we have created the blog so now let try to update it
+        createBlogResp =   self.client.post(CREATE_POST_URL,blogpost)
+        # now we create another user 
+        payload = {'name':'matthew','email':'newUser@gmail.com','password':'YouCrazyWIthProgramming'}
+        # this new user has no right to delete another user post so we gonna test that
+        newUser = create_user(**payload)
+        # login the new user 
+        self.client.force_authenticate(newUser)
+        # test if he can update another persons post
+        resp = self.client.patch(update_post_url(createBlogResp.data.get('id')),{'title':'Yo(Updated by marko)'})
+
+        self.assertEqual(resp.status_code,status.HTTP_403_FORBIDDEN)
+
+        
     def test_if_anyAuth_user_can_delete_post_that_are_not_thier_own(self):
         'this test if any body can delete a author post'
 
