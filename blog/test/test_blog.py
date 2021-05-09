@@ -70,7 +70,7 @@ class TestBlogAuthUser(TestCase):
 
         self.assertEqual(resp.status_code,status.HTTP_403_FORBIDDEN)
 
-        
+
     def test_if_anyAuth_user_can_delete_post_that_are_not_thier_own(self):
         'this test if any body can delete a author post'
 
@@ -135,18 +135,38 @@ class TestUnAuthBlogUSer(TestCase):
 
     def setUp(self):
         self.client = APIClient()
+        self.payload = {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}
 
 
 
     def test_unAuth_user_create_blogPost(self):
         blogpost = {'title':'heloo world','blogPost':'thedhbfdbfrd'}
         resp = self.client.post(CREATE_POST_URL,blogpost)
-        payload = {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}
-        user = create_user(**payload)
+        
+        user = create_user(**self.payload)
 
 
         self.assertEqual(resp.status_code,status.HTTP_401_UNAUTHORIZED)
         isBlogExits = models.Blog.objects.filter(author=user,title=resp.data.get('title'))
         self.assertFalse(isBlogExits)
 
-    
+    def test_if_a_unAuth_user_can_view_a_blog_post(self):
+        # firt create a user
+        user = create_user(**self.payload)
+        blogParams = {'author':user,'title':'jimmy Zang','blogPost':'Lorem ipsom'}
+        blogPost = create_blogpost(**blogParams)
+        # CREATE_POST_URL -- this url also serve as a get all blog post
+        resp = self.client.get(CREATE_POST_URL)
+
+        self.assertEqual(resp.status_code,status.HTTP_200_OK)
+
+    def test_if_a_unAuth_user_can_view_a_blog_specific_post(self):
+        # firt create a user
+        user = create_user(**self.payload)
+
+        blogParams = {'author':user,'title':'jimmy Zang','blogPost':'Lorem ipsom'}
+        blogPost = create_blogpost(**blogParams)
+        
+        resp = self.client.get(update_post_url(blogPost.id))
+        # print(resp.data)
+        self.assertEqual(resp.status_code,status.HTTP_200_OK)
