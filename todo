@@ -30,6 +30,9 @@ auth user:
         update thier  blog post -- done
 
     Comment:
+        Only Auth users can comment
+        owner can crud his comment
+        owner of the post has the right to delete a post
         
 
 

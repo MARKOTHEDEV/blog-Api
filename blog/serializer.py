@@ -16,3 +16,20 @@ class BlogSerializer(serializers.ModelSerializer):
             'id':{'read_only':True},
             'author':{'read_only':True}
         }
+
+
+class CommentSerializer(serializers.ModelSerializer):
+
+
+
+
+    class Meta:
+        """Meta definition for serializers."""
+
+        model = blog_models.Comment
+        fields = ('id','blog','user','comment')
+        # read_only = ['id']
+        extra_kwargs={
+            'id':{'read_only':True},
+            'user':{'read_only':True}
+        }

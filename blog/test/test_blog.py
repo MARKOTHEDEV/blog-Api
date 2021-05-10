@@ -25,7 +25,7 @@ class TestBlogAuthUser(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        paylaod = {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}
+        paylaod =   {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}  
         self.user = create_user(**paylaod)
         self.client.force_authenticate(self.user)
 

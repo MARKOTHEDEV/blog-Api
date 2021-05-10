@@ -22,3 +22,13 @@ class BlogViewSet(ModelViewSet):
         #     serializer.save(author=self.request.user)
         # except ValueError:
         #     raise ValueError('This user Is AnonymousUser So Creating Blog is not Allowed')
+
+    
+class CommentViewset(ModelViewSet):
+    queryset = blog_models.Comment.objects.all()
+    serializer_class = myserializers.CommentSerializer
+    permission_classes  = (permissions.IsAuthenticatedOrReadOnly,custompermissions.AllowOwnerToEditComment)
+    authentication_classes = (TokenAuthentication,)
+
+    def perform_create(self,serializer):
+        serializer.save(user=self.request.user)
