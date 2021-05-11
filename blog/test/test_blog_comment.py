@@ -85,3 +85,27 @@ class TestAuthComment(TestCase):
         # now we test if the newUSercomment was updated
         
         self.assertEqual(updateCommentResp.data.get('comment'),comment_payloadUpdate.get('comment'))
+
+
+    def test_authUser_can_delete_comment(self):
+        # first we create a Blog post we want to comment on
+        blogParams = {'author':self.user,'title':'jimmy Zang','blogPost':'Lorem ipsom'}
+        blog = create_blogpost(**blogParams)
+        # next we created a new user who will comment on the Author:self.user post
+
+        userPayload = {'name':'matthew','email':'marko5552@gmail.com','password':'Y8687ouCrazyWIthProgramming'}
+        newUser = create_user(**userPayload)
+        self.client.force_authenticate(newUser)
+        # now we create aour comment
+        comment_payload = {'comment':'The real seo is really good for testingn comment','blog':blog,'user':newUser} 
+        comment = blog_models.Comment.objects.create(**comment_payload)
+
+        # now it time to test if we can delete the comment
+        resp = self.client.delete(comment_url_with_argument(comment.id))
+
+
+        self.assertEqual(resp.status_code,status.HTTP_204_NO_CONTENT)
+        # now let just test if the comment exits in our data base it must return false
+        self.assertFalse(
+            blog_models.Comment.objects.filter(id=comment.id).exists()
+        )
