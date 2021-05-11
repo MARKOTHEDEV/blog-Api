@@ -7,7 +7,8 @@ from blog import models as blog_models
 
 CREATE_COMMENT_URL = reverse('comment-list')
 
-
+def comment_url_with_argument(pk):
+    return reverse('comment-detail',args=[pk,])
 
 def create_blogpost(**params):
     'helper funtion that create a blog post on call of it'
@@ -55,3 +56,32 @@ class TestAuthComment(TestCase):
         # we want to check if the comment that wasjust created was saved in the database
         isCommentExits = blog_models.Comment.objects.filter(id=resp.data.get('id'))
         self.assertTrue(isCommentExits)
+
+    def test_if_auth_user_can_update_his_post(self):
+        'this wil test if a login user can update his comment on a post'
+        # first we need to create a blog post the author will be the self.user
+        
+        blogParams = {'author':self.user,'title':'jimmy Zang','blogPost':'Lorem ipsom'}
+        blog = create_blogpost(**blogParams)
+        # print(blog)
+
+        # now we create another user and autheticate him so he can create a comment and update it
+        userPayload = {'name':'matthew','email':'marko5552@gmail.com','password':'Y8687ouCrazyWIthProgramming'}
+        newUser = create_user(**userPayload)
+        self.client.force_authenticate(newUser)
+        # so we send a post method the the create endpoint to create a comment
+        comment_payload = {'comment':'The real seo is really good for testingn comment','blog':blog.id}
+        Comment_resp = self.client.post(CREATE_COMMENT_URL,comment_payload)
+        # we check if the comment was created
+        self.assertEqual(Comment_resp.status_code,status.HTTP_201_CREATED)
+
+        # since it was created we need to get the comment
+        newUserComment = blog_models.Comment.objects.get(id=Comment_resp.data.get('id'))
+        # now it time to test if we can update or  post
+        comment_payloadUpdate = {'comment':'MARKOTHEDEV'}
+        updateCommentResp = self.client.patch(comment_url_with_argument(newUserComment.id),comment_payloadUpdate)
+
+        # print(updateCommentResp.data)
+        # now we test if the newUSercomment was updated
+        
+        self.assertEqual(updateCommentResp.data.get('comment'),comment_payloadUpdate.get('comment'))

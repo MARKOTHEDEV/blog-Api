@@ -3,6 +3,9 @@ from . import views
 from django.urls import path,include
 route = DefaultRouter()
 route2 = DefaultRouter()
+
+
+
 route.register('blog',views.BlogViewSet)
 route2.register('',views.CommentViewset)
 
