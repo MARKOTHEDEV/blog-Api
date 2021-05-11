@@ -109,3 +109,65 @@ class TestAuthComment(TestCase):
         self.assertFalse(
             blog_models.Comment.objects.filter(id=comment.id).exists()
         )
+
+
+class TestUnAuthUSer(TestCase):
+    'this test all users that are not logged in also Known as Annoymous user'
+    def setUp(self):
+        self.client = APIClient()
+
+
+
+
+
+    def test_if_unauthUser_can_create_comment(self):
+        'this fucntion is to test the unauth user if they can delete comment'
+        # we created a user first
+        userPayload = {'name':'matthew','email':'marko5552@gmail.com','password':'Y8687ouCrazyWIthProgramming'}
+        newUser = create_user(**userPayload)
+        # self.client.force_authenticate(newUser)
+        # assign that user to a blog post as it author
+        blogParams = {'author':newUser,'title':'jimmy Zang','blogPost':'Lorem ipsom'}
+        blog = create_blogpost(**blogParams)
+        # next we created a new user who will comment on the Author:self.user post
+
+        
+        # then the unAuth user sends a post method the the create endpoint to create a comment
+        comment_payload = {'comment':'The real seo is really good for testingn comment','blog':blog.id}
+        Comment_resp = self.client.post(CREATE_COMMENT_URL,comment_payload)
+
+        self.assertEqual(Comment_resp.status_code,status.HTTP_401_UNAUTHORIZED)
+
+
+    def test_if_unauthUser_can_update_comment(self):
+        'this fucntion is to test the unauth user if they can update comment'
+        userPayload = {'name':'matthew','email':'marko5552@gmail.com','password':'Y8687ouCrazyWIthProgramming'}
+        newUser = create_user(**userPayload)
+        # self.client.force_authenticate(newUser)
+        blogParams = {'author':newUser,'title':'jimmy Zang','blogPost':'Lorem ipsom'}
+        blog = create_blogpost(**blogParams)
+        # next we created a new user who will comment on the Author:self.user post
+
+        
+        # so we send a post method the the create endpoint to create a comment
+        comment_payload = {'comment':'The real seo is really good for testingn comment(updated)'}
+        Comment_resp = self.client.patch(CREATE_COMMENT_URL,comment_payload)
+        # print(Comment_resp.data)
+        self.assertEqual(Comment_resp.status_code,status.HTTP_401_UNAUTHORIZED)
+
+
+
+    def test_if_unauthUser_can_delete_comment(self):
+        'this fucntion is to test the unauth user if they can delete comment'
+        userPayload = {'name':'matthew','email':'marko5552@gmail.com','password':'Y8687ouCrazyWIthProgramming'}
+        newUser = create_user(**userPayload)
+        # self.client.force_authenticate(newUser)
+        blogParams = {'author':newUser,'title':'jimmy Zang','blogPost':'Lorem ipsom'}
+        blog = create_blogpost(**blogParams)
+        # next we created a new user who will comment on the Author:self.user post
+        
+        comment_payload = {'comment':'The real seo is really good for testingn comment','blog':blog,'user':newUser} 
+        comment = blog_models.Comment.objects.create(**comment_payload)
+        Comment_resp = self.client.delete(comment_url_with_argument(comment.id))
+        # print(Comment_resp.data)
+        self.assertEqual(Comment_resp.status_code,status.HTTP_401_UNAUTHORIZED)
