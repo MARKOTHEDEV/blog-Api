@@ -1,11 +1,12 @@
 from blog import models as blog_models
 from django.contrib.auth import get_user_model
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import permissions
 from . import permissions as custompermissions
 from . import serializer as myserializers
-
+from rest_framework.response import Response
 
 
 class BlogViewSet(ModelViewSet):
@@ -32,3 +33,12 @@ class CommentViewset(ModelViewSet):
 
     def perform_create(self,serializer):
         serializer.save(user=self.request.user)
+
+
+    def retrieve(self,request,**kwargs):
+        'based on the blog we have opened we can see it own comment'
+        allComment = self.queryset.filter(blog=kwargs.get('pk'))
+        
+        serializedData = self.serializer_class(allComment,many=True)
+
+        return Response([serializedData.data])
