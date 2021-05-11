@@ -37,6 +37,7 @@ class CommentViewset(ModelViewSet):
 
     def retrieve(self,request,**kwargs):
         'based on the blog we have opened we can see it own comment'
+        '/api/blog/comment/1/ -- u must specify the blog id to getit comment'
         allComment = self.queryset.filter(blog=kwargs.get('pk'))
         
         serializedData = self.serializer_class(allComment,many=True)
