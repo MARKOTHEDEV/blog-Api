@@ -20,6 +20,7 @@ def create_user(**kwargs):
     return get_user_model().objects.create_user(**kwargs)
 
 
+# /api/blog/comment/    
 
 class TestAuthComment(TestCase):
 

@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 
 @api_view(['GET',])
 def documentation(request):
-
+    'this view just renders the documentation Of the entire api'
     docs = [
         {'Intro':'To deal with this Api they are two main urls "users/" and "blog/" '},
 
@@ -25,6 +25,10 @@ def documentation(request):
         ]},
 
         {'comment':[
+            {'to get all comment of a particular post -- GET':'/api/blog/comment/blog_id/'},
+            {'to create a post -->POST':r'/api/blog/comment/    FOR THIS WE need to sumbit this data to through a POST request ==> "{comment:comment-data,blog:blog.id}" '},
+            {'update a particular comment u have to be the owner  -- PATCH request':r"/api/blog/comment/comment_id/ -- send this data {'comment':'MARKOTHEDEV'}"},
+            {'To Delete a particular comment u have to be the owner  -- DELETE request':r"/api/blog/comment/comment_id/"},
             
         ]}
     ]
