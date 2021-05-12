@@ -5,20 +5,17 @@ from django.contrib.auth import get_user_model
 # Create your models here.
 
 
-# post categories
-class PostType(models.Model):
-    '''
-    this model let the blog website so in feature we can add more blog post
-    postType can be => e.g entertainment,programming ,education e.t.c
-    '''
-    name = models.CharField(max_length=300)
-
-    def __str__(self):
-        return self.name
 
 class Blog(models.Model):
 
-    postType = models.ForeignKey(PostType,on_delete=models.SET_NULL,null=True)
+    authorChoice = (
+        ('Politics','Politics'),
+        ('Tech','Tech'),
+        ('Entertainment','Entertainment'),
+        ('Travel','Travel'),
+        ('Sports','Sports'),
+    )
+    category = models.CharField(choices=authorChoice,max_length=500,blank=True)
     author = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
     blogPost = models.TextField()
