@@ -19,6 +19,8 @@ class Blog(models.Model):
     author = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
     blogPost = models.TextField()
+    introPics = models.ImageField(default='blog/%d/')
+    contentHeader = models.ImageField(default='blog/%d/')
 
     def __str__(self):
         return f'{self.author} ----> {self.title}'

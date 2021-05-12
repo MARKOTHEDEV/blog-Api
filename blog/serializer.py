@@ -10,11 +10,13 @@ class BlogSerializer(serializers.ModelSerializer):
         """Meta definition for serializers."""
 
         model = blog_models.Blog
-        fields = ('id','title','blogPost','category','author')
+        fields = ('id','title','blogPost','category','author','contentHeader','introPics')
         # read_only = ['id']
         extra_kwargs={
             'id':{'read_only':True},
-            'author':{'read_only':True}
+            'author':{'read_only':True},
+            'contentHeader':{'read_only':True},
+            'introPics':{'read_only':True},
         }
 
 
