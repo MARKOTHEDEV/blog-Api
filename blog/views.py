@@ -34,15 +34,7 @@ class BlogViewSet(ModelViewSet):
 
         return super().get_serializer_class()
 
-    # @action(['POST','GET'],detail=True,url_path='upload_pics')
-    # def upload_pics(self,request,**kwargs):
-    #     '''all us need to do is get the blog id and update the pics
-    #     will try to use the main serializer
-    #     '''
-    #     print(self.kwargs)
-
-    #     return Response(["yo what up farm"])
-
+  
 
     
     

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 
 
 # Create your models here.
@@ -25,6 +26,12 @@ class Blog(models.Model):
     def __str__(self):
         return f'{self.author} ----> {self.title}'
 
+    @property
+    def authorName(self):
+        'this returns the actual name of the author unlike the self.author that returns the id of the user model'
+        name = get_user_model().objects.get(id=self.author.id)
+        # print(name)
+        return name.email
 
 
 
