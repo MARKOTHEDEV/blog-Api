@@ -1,6 +1,6 @@
 # blog-Api
 
-this is a blog project that is byit with
+this is a blog project that is buit with
 
 django 
 django rest frame work
