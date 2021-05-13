@@ -3,10 +3,11 @@ from django.contrib.auth import get_user_model
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.authentication import TokenAuthentication
-from rest_framework import permissions
+from rest_framework import permissions, serializers
 from . import permissions as custompermissions
 from . import serializer as myserializers
 from rest_framework.response import Response
+
 
 
 class BlogViewSet(ModelViewSet):
@@ -17,13 +18,34 @@ class BlogViewSet(ModelViewSet):
 
 
     def perform_create(self,serializer):
+
+        '''this function is used to assign a Blog post that was juscreated to a author 
+                So it done automatically since we wrote our serializer i a way that he login in user can't assign a author
+                
+
+                Any body that create a blog post when he is logged in he becomes the autor of he post!
+        '''
         serializer.save(author=self.request.user)
 
-        # try:
-        #     serializer.save(author=self.request.user)
-        # except ValueError:
-        #     raise ValueError('This user Is AnonymousUser So Creating Blog is not Allowed')
+    def get_serializer_class(self):
+        if self.action == 'upload_pics':
+            # print('heloo world')
+            return myserializers.BlogImageSerializer
 
+        return super().get_serializer_class()
+
+    @action(['POST','GET'],detail=True,url_path='upload_pics')
+    def upload_pics(self,request,**kwargs):
+        '''all us need to do is get the blog id and update the pics
+        will try to use the main serializer
+        '''
+        print(self.kwargs)
+
+        return Response(["yo what up farm"])
+
+
+    
+    
     
 class CommentViewset(ModelViewSet):
     queryset = blog_models.Comment.objects.all()

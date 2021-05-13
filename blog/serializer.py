@@ -1,6 +1,8 @@
+from django.db.models import fields
 from rest_framework import serializers
 
 from blog import models as blog_models
+import blog
 
 
 class BlogSerializer(serializers.ModelSerializer):
@@ -19,6 +21,15 @@ class BlogSerializer(serializers.ModelSerializer):
             'introPics':{'read_only':True},
         }
 
+
+class BlogImageSerializer(serializers.ModelSerializer):
+    "this serializer handles the images that are associated withe blog"
+
+    class Meta:
+        model = blog_models.Blog
+        fields  = ('contentHeader','introPics')
+
+        
 
 class CommentSerializer(serializers.ModelSerializer):
 
