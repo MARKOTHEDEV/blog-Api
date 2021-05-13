@@ -17,8 +17,8 @@ class BlogSerializer(serializers.ModelSerializer):
         extra_kwargs={
             'id':{'read_only':True},
             'author':{'read_only':True},
-            'contentHeader':{'read_only':True},
-            'introPics':{'read_only':True},
+            # 'contentHeader':{'read_only':True},
+            # 'introPics':{'read_only':True},
         }
 
 
