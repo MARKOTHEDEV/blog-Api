@@ -72,3 +72,12 @@ Blog comment:
 
 Front end Todo
 
+get all post and put it in the fron end -- paginate it  -- done
+add date create to the mix -- done
+work on the detail page:
+    work on comment
+    create a delete and update button
+    create a update page -- has to do with forms
+
+go back to the index page and work on the getting posts based on categories
+work on the search feature
