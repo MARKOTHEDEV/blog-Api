@@ -61,7 +61,7 @@ class UI{
         }); 
     }
 
-
+    //this sets a new attribute to the buttons the value of the atrribute will either be null or a url to the next page
     setPagination(data){
 
         this.prevBtn.setAttribute('data-prev',data.previous)
@@ -95,7 +95,7 @@ class BlogIndex{
     
     }
 
-
+    
     
 
     
@@ -109,8 +109,6 @@ class BlogIndex{
 blog = new BlogIndex()
 console.log('Yo')
 blog.getAllBlogPost('/api/blog/blog/')
-
-
 
 let prevBtn = document.querySelector('#prev');
 let nextBtn = document.querySelector('#next')
