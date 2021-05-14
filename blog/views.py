@@ -13,7 +13,7 @@ from rest_framework.response import Response
 class BlogViewSet(ModelViewSet):
     queryset = blog_models.Blog.objects.all()
     serializer_class = myserializers.BlogSerializer
-    permission_classes  = (custompermissions.AllOwnerToEdit,permissions.IsAuthenticatedOrReadOnly)
+    permission_classes  = (permissions.IsAuthenticatedOrReadOnly,custompermissions.AllowAuthorToEditPost,)
     authentication_classes = (TokenAuthentication,)
     # pagination_class = 
 
@@ -28,12 +28,12 @@ class BlogViewSet(ModelViewSet):
         '''
         serializer.save(author=self.request.user)
 
-    def get_serializer_class(self):
-        if self.action == 'upload_pics':
-            # print('heloo world')
-            return myserializers.BlogImageSerializer
+    # def get_serializer_class(self):
+    #     if self.action == 'upload_pics':
+    #         # print('heloo world')
+    #         return myserializers.BlogImageSerializer
 
-        return super().get_serializer_class()
+    #     return super().get_serializer_class()
 
   
 
@@ -57,4 +57,4 @@ class CommentViewset(ModelViewSet):
         
         serializedData = self.serializer_class(allComment,many=True)
 
-        return Response([serializedData.data])
+        return Response([serializedData.data],status=serializedData.status)

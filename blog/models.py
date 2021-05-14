@@ -20,8 +20,12 @@ class Blog(models.Model):
     author = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
     blogPost = models.TextField()
+    blogPost2 = models.TextField(blank=True)
+
     introPics = models.ImageField(default='blog/%d/',null=True)
     contentHeader = models.ImageField(default='blog/%d/',null=True)
+    extrapics = models.ImageField(default='blog/%d/',null=True)
+
     dateCreated = models.DateField(auto_now_add=True,null=True)
 
     def __str__(self):

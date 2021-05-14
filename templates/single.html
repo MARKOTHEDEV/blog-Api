@@ -4,7 +4,7 @@
 
 
 {% block title %}
-        Blog Title
+      Blog Title
 {% endblock title %}
 
 
@@ -348,6 +348,15 @@
 
            
 {% endblock content %}
+
+{% block js %}
+           <script >
+             //this is the current blog primary key with this key we can asscess the the blog detail
+             const blogId = "{{ pk }}"
+           </script>
+
+           <script src="{% static 'apijs/blog-details.js' %}"></script>
+{% endblock js %}
 
 
   

@@ -79,6 +79,10 @@ work on the detail page:
             How to get the blog detail:
                     for every link we add an argument to the url like this {% url 'blog-detail' ${post.blog_id} %}
                     in our django view we return a context which will be a blog id used to get the blog details...
+    
+    
+    CHECK ur session storage to see if the user is logged in with a loken:
+        if yes then he can comment
     work on comment
     create a delete and update button
     create a update page -- has to do with forms

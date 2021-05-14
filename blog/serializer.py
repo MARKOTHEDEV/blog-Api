@@ -15,7 +15,9 @@ class BlogSerializer(serializers.ModelSerializer):
         fields = ('id','title','blogPost','category','author',
         'authorName','contentHeader',
         'introPics','dateCreated',
-        'authorImage','introContent')
+        'authorImage','introContent',
+        'blogPost2','extrapics',
+        )
         # read_only = ['id']
         extra_kwargs={
             'id':{'read_only':True},
