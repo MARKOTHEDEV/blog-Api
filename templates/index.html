@@ -9,7 +9,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700|Playfair+Display:400,700,900" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'fonts%2c_icomoon%2c_style.css%2bcss%2c_bootstrap.min.css%2bcss%2c_magnific-popup.css%2bcss%2c_jquery-ui.css%2bcss%2c_owl.carousel.min.css%2bcss%2c_owl.theme.default.min.css%2bcss%2c_boots.css' %}" />
-</head>
+
+  <style>
+/*    .next.remove{
+    visibility:hidden;
+    }
+    .prev.remove{
+      visibility:hidden;
+      }
+    .next,.prev{
+      visibility: visible;
+      display: block;
+    }*/
+    .prev[data-prev='null']{
+      visibility: hidden;
+    }
+    .prev:not([data-prev='null']){
+   
+      visibility: visible;
+    }
+    
+    .next[data-next='null']{
+      visibility: hidden;
+    }
+    .next:not([data-next='null']){
+   
+      visibility: visible;
+    }
+    
+
+
+  </style>
+  </head>
 <body>
   <!-- start of stite wrap -->
   <div class="site-wrap">
@@ -61,34 +92,20 @@
                 </div>
                 </div>
                 <div class="row" id="allPostContainer">
-                  <div class="col-lg-4 mb-4">
-                        <div class="entry2">
-                              <a  data-id="" href=""><img src="{% static 'images/ximg_1.jpg.pagespeed.ic.gajmyLtNWE.jpg' %}" alt="Image" class="img-fluid rounded"></a>
-                              <div class="excerpt">
-                                    <span class="post-category text-white bg-secondary mb-3">Politics</span>
-                                     <h2><a href="single.html">The AI magically removes moving objects from videos.</a></h2>
-                                  <div class="post-meta align-items-center text-left clearfix">
-                                      <figure class="author-figure mb-0 mr-3 float-left"><img src="{% static 'images/xperson_1.jpg.pagespeed.ic.yYek0ClmEN.jpg' %}" alt="Image" class="img-fluid"></figure>
-                                      <span class="d-inline-block mt-1">By <a href="#">Carrol Atkinson</a></span>
-                                      <span>&nbsp;-&nbsp; July 19, 2019</span>
-                                  </div>
-                                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo sunt tempora dolor laudantium sed optio, explicabo ad deleniti impedit facilis fugit recusandae! Illo, aliquid, dicta beatae quia porro id est.</p>
-                                  <p><a href="#">Read More</a></p>
-                              </div>
-                        </div>
-                  </div>
+                            <!--will be filled with js  -->
                 </div>
                 <!-- <br><br> -->
                 <!-- pagination -->
                 <div class="row text-center pt-5 border-top">
                 <div class="col-md-12">
                 <div class="custom-pagination">
-                <span>1</span>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <span>...</span>
-                <a href="#">15</a>
+                <!-- <span>1</span> -->
+                
+                <a href="" id="prev" class="prev">Prev</a>
+                <a href="" id="next"  class="next">Next</a>
+                
+
+                <!-- <button>></button> -->
                 </div>
                 </div>
                 </div>

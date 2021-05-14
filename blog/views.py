@@ -15,6 +15,7 @@ class BlogViewSet(ModelViewSet):
     serializer_class = myserializers.BlogSerializer
     permission_classes  = (custompermissions.AllOwnerToEdit,permissions.IsAuthenticatedOrReadOnly)
     authentication_classes = (TokenAuthentication,)
+    # pagination_class = 
 
 
     def perform_create(self,serializer):

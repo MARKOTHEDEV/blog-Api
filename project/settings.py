@@ -107,6 +107,16 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# django rest pagination setup
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 6
+}
+
+
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -127,11 +137,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT= os.path.join(BASE_DIR,'static')
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-#     os.path.join(BASE_DIR,'frontend','static')
 
-# ]
 
 
 MEDIA_URL = '/media/'
