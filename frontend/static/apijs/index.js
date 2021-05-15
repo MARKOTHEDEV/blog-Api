@@ -23,7 +23,7 @@ class UI{
         
         
         BlogPosts.results.forEach(post => {
-            console.log(post)
+            // console.log(post)
             this.allPostContainer.innerHTML += `
             
             <div class="col-lg-4 mb-4">

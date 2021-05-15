@@ -87,12 +87,12 @@ class BlogDetails{
     run(){
         this.getBlogDetails(this.url)
         .then(data =>{
-            console.log('data',data)
+            // console.log('data',data)
             this.displayBlogDetail(data)
         })
-        .catch(err=>{
-            console.log(err)
-        })
+        // .catch(err=>{
+        //     console.log(err)
+        // })
     }
 
  
