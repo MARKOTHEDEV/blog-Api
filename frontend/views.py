@@ -22,3 +22,5 @@ def blogDetail(request,pk=None):
 
 
 
+def create_account(request):
+    return render(request,'signup.html')

@@ -75,10 +75,14 @@ Front end Todo
 get all post and put it in the fron end -- paginate it  -- done
 add date create to the mix -- done
 work on the detail page:
-            based on the detail mark up we need about  2 exra image field and extra feild for content
-            How to get the blog detail:
-                    for every link we add an argument to the url like this {% url 'blog-detail' ${post.blog_id} %}
-                    in our django view we return a context which will be a blog id used to get the blog details...
+            based on the detail mark up we need about  2 exra image field and extra feild for content --done
+`            How to get the blog detail: 
+                    for every link we add an argument to the url like this {% url 'blog-detail' ${post.blog_id} %} --done
+                    in our django view we return a context which will be a blog id used to get the blog details... --done
+
+            load json data to detail page arragne it well
+            
+FOR auhtentication in the ui
     
     
     CHECK ur session storage to see if the user is logged in with a loken:
