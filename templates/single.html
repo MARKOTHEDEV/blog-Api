@@ -18,6 +18,8 @@
     display: block;
   }
 
+
+
   </style>
 
 {% endblock extraCss %}
@@ -64,9 +66,13 @@
     <div class="post-content-body" id="mainBlogDetails">
             <!-- this scection will be fiilled by javascript -- check blog-details.js for more info -->
     </div>
-    <div class="pt-5">
-    <p>Categories: <a href="#">Food</a>, <a href="#">Travel</a> Tags: <a href="#">#manila</a>, <a href="#">#asia</a></p>
+
+    <div class="pt-5"  id="edit-post-link-Container">
+      <button  data-blogID="{{ pk }}" id="deletePost" class="bg-danger btn remove" style="color: white;">Delete</button>
+      <button  data-blogID="{{ pk }}" id="updatePost" class="bg-success btn remove" style="color: white;">Update</button>
     </div>
+
+
     <div class="pt-5">
         <!-- start of count how many comments exits -->
         <h3 class="mb-5">6 Comments</h3>
@@ -362,9 +368,11 @@
            <script >
              //this is the current blog primary key with this key we can asscess the the blog detail
              const blogId = "{{ pk }}"
+             const listOfAllBlogPOSTURL = "{% url 'list-of-all-blogpost' %}"
            </script>
 
 
+           <script src="{% static 'apijs/authentication.js' %}"></script>
            <script src="{% static 'apijs/blog-details.js' %}"></script>
 {% endblock js %}
 

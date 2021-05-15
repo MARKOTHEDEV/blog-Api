@@ -6,7 +6,7 @@
 
 
 
-class CreateUserForm{
+class CreateUserOrLoginForm{
     constructor(loginform,url,redirectUrl,formName){
         this.loginform = loginform;
         this.createUSerUrl =url;
@@ -143,7 +143,7 @@ class CreateUserForm{
 
 let CreateUserBtn = document.querySelector('#CreateUserBtn')
 
-
+//this triggers the  CreateUserOrLoginForm class  -- but it acts 
 if(CreateUserBtn !== null){
     CreateUserBtn.addEventListener('click',e=>{
         e.preventDefault()
@@ -156,7 +156,7 @@ if(CreateUserBtn !== null){
     
         data = {"password":password.value,"email":email.value,"name":name.value}
     
-        let form = new CreateUserForm(document.querySelector('#loginForm'),'/api/users/create-user/',loginUrl,'CreateUserForm')
+        let form = new CreateUserOrLoginForm(document.querySelector('#loginForm'),'/api/users/create-user/',loginUrl,'CreateUserForm')
     
         form.submit(data)
     })    
@@ -184,7 +184,7 @@ if(loginBtn !== null){
     
         data = {"password":password.value,"email":email.value}
     
-        let form = new CreateUserForm(document.querySelector('#loginForm'),'/api/users/login/','/','loginForm')
+        let form = new CreateUserOrLoginForm(document.querySelector('#loginForm'),'/api/users/login/','/','loginForm')
     
         form.submit(data)
     })

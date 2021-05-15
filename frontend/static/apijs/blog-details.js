@@ -10,17 +10,21 @@ class UI{
         this.hero_section_authorName = document.querySelector('#hero_section_authorName')
         this.hero_section_Datecreated = document.querySelector('#hero_section_Datecreated');
         this.hero_section_authorImage = document.querySelector('#hero_section_authorImage')
-        this.mainBlogDetails = document.querySelector('#mainBlogDetails')        
+        this.mainBlogDetails = document.querySelector('#mainBlogDetails') 
+        this.editPostLinkContainer = document.querySelector('#edit-post-link-Container')       
     }
 
 
     
 }
 
-class BlogDetails{
+class BlogDetails extends Authorization{
 
 
     constructor(BlogDetailUrl){
+        // super means we inheriting Authorization methods and atributes
+        super()
+
         this.url = BlogDetailUrl;
         this.ui = new UI()
     }
@@ -43,6 +47,14 @@ class BlogDetails{
             this.ui.hero_section_authorImage.src = data.authorImage
             this.ui.hero_section_Datecreated.innerText =data.dateCreated
             this.ui.hero_section_authorName.innerText = data.authorName
+
+    }
+
+    //this method will remove the update and delete button to the html
+    RemoveEditPostButtons(data){
+       this.ui.editPostLinkContainer.style.display="none"
+  
+
 
     }
 
@@ -73,12 +85,28 @@ class BlogDetails{
         `
 
     }
-    displayBlogDetail(data){
 
+
+
+    displayBlogDetail(data){
+      
         // first set the h1 or the title of the page
         
         this.displayHeroSection(data)
         this.displayBlogMainContent(data)
+
+        
+        //if the this.checkIfAuthUserOwnsPost(data.author) is true we going to use the !not operator
+        // to make it false
+        if(!this.checkIfAuthUserOwnsPost(data.author)){
+            //if the logged in user is same with the author it will return false becuase of the !  
+            //meaning the person is not the owner of the post remove the buttons
+            //the Update button or delete btns
+            this.RemoveEditPostButtons(data)
+          
+        }
+    
+    
     }
 
 
@@ -156,3 +184,50 @@ class Comments{
 
 
 }
+
+
+
+
+
+
+async  function DeleteOrUpdatePost(url,METHOD){
+
+
+    const resp =await fetch(url, {
+                method: METHOD, // or 'PUT'
+                headers: {
+                Authorization: `Token ${JSON.parse(sessionStorage.getItem('userToken'))}`
+                },
+                // body: JSON.stringify(data),
+            })
+    const respData = await resp.status
+
+    return respData
+
+}
+
+
+
+// event listers
+let deletePostBtn = document.querySelector('#deletePost')
+// console.log(deletePostBtn)
+deletePostBtn.addEventListener('click',e=>{
+    e.preventDefault()
+    // console.log()
+    // since delete dosent return a content
+    DeleteOrUpdatePost(`/api/blog/blog/${e.target.dataset.blogid}/`,'DELETE')
+    .then(statusCode=>{
+        if(statusCode === 204){
+            location.href =listOfAllBlogPOSTURL
+        }else{
+            alert("Some Error Occured")
+        }
+    })
+    
+
+    // note listOfAllBlogPOSTURL is a const that was created in the html a script tag above this one 
+    
+
+    
+
+})
