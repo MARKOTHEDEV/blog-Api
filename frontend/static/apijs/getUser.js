@@ -11,7 +11,9 @@
 
 class UserProfile{
     //this class get the authenticated user token and saves the user object to session storage
-
+    constructor(successUrl){
+        this.successUrl = successUrl
+    }
     async getUserObject(url){
         // this function goes to the back end to get the user
 
@@ -37,6 +39,7 @@ class UserProfile{
             else{
                 // console.log(data)
                 sessionStorage.setItem('user',JSON.stringify(data))
+                location.href = this.successUrl
             }
         })
 
