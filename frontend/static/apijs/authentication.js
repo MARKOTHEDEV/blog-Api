@@ -7,8 +7,34 @@ class LoginForm{
         this.createUSerUrl ='/api/users/create-user/';
     }
 
-    async sendDataToBackEnd(url,data){
 
+    sendErrorToUi(inputID,message){
+        //input represents the html input filed
+        let input = document.querySelector(inputID)
+        // so we will get the exact form group 
+        let formGroup = input.parentElement
+        
+
+        formGroup.querySelector('.message').innerText = message;
+    }
+
+        //this methods clears the error message for new error message to enter for better user expirence
+        clearErrorMessages(){
+                //input represents the html input filed
+                ['#password','#email','#name'].forEach(inputID=>{
+                    let input = document.querySelector(inputID)
+                    // so we will get the exact form group 
+                    let formGroup = input.parentElement
+                    
+            
+                    formGroup.querySelector('.message').innerText = '';
+                })
+
+            }
+    
+  
+        async sendDataToBackEnd(url,data){
+    // this method send a POST REQUEST TO create user 
       let  resp = await fetch(url, {
             method: 'POST',
             headers: {
@@ -22,25 +48,52 @@ class LoginForm{
     return respData
 
     }
+
+
     submit(data){
         console.log(data)
+        this.clearErrorMessages()
+
         this.sendDataToBackEnd(this.createUSerUrl,data)
+        // start of .then
         .then(data=>{
             if(Array.isArray(data.password)){
-                alert(data.password[0]);
+                
+                this.sendErrorToUi('#password',data.password[0])
             }
+
+
+            if(Array.isArray(data.name)){
+                
+                this.sendErrorToUi('#name',data.name[0])
+            }
+
+
            else if(Array.isArray(data.email)){
-            alert(data.email[0]);
+               let emailMessage = data.email[0]
+                // this if state ment is just to format the the string in a more understand able tone...
+                if(emailMessage === 'myuser with this email already exists.'){
+                    emailMessage = emailMessage.replace('myuser','User')
+                }
+                // then we send the error to the ui
+                this.sendErrorToUi('#email',emailMessage)
+
 
             }   
 
             else{
+                // we save the user obj in the session storge for easy access
+                // sessionStorage.setItem('user',JSON.stringify(data))
                 // redirect to login page
-                alert(data,': redirect to login page');
+                //this loginUrl is a const it coming from the signup.html there is a script tag that created it..
+                window.location.href = loginUrl
+                
             }
             
 
         })
+        // end of .then
+
 
     }
 

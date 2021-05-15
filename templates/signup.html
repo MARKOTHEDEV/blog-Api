@@ -26,6 +26,12 @@
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'login_staticfiles/css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'login_staticfiles/css/main.css' %}">
+
+	<style>
+		.message{
+			color:  red;
+		}
+	</style>
 <!--===============================================================================================-->
 </head>
 <body style="background-color: #666666;">
@@ -41,24 +47,29 @@
 
 					
 					<div class="wrap-input100 validate-input" >
-						<input class="input100" type="text" id="name" >
+						<input class="input100" type="text" id="name" required>
 						<span class="focus-input100"></span>
 						<span class="label-input100">Name</span>
+						<p class="message"></p>
+
 					</div>
 
-
+<br><br>
 					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" id="email">
+						<input class="input100" type="text" id="email" required>
 						<span class="focus-input100"></span>
 						<span class="label-input100">Email</span>
+						<p class="message"></p>
 					</div>
-					
+						<br><br>
 					
 					<div class="wrap-input100 validate-input" data-validate="Password is required">
-						<input class="input100" type="password" id="password">
+						<input class="input100" type="password" id="password" required>
 						<span class="focus-input100"></span>
 						<span class="label-input100">Password</span>
+						<p class="message"></p>
 					</div>
+					<br><br>
 
 					<div class="flex-sb-m w-full p-t-3 p-b-32">
 						<!-- <div class="contact100-form-checkbox">
@@ -68,10 +79,10 @@
 							</label>
 						</div> -->
 						<div>
-							<a href="">Already Have an account</a>
+							<a href="{% url 'frontend_login' %}">Already Have an account</a>
 						</div>
 						<div>
-							<a href="#" class="txt1">
+							<a href="" class="txt1">
 								Forgot Password?
 							</a>
 						</div>
@@ -112,6 +123,10 @@
 	
 	{% include './partials/csrftoken.html' %}
 
+
+	<script>
+		const loginUrl = '{% url "frontend_login" %}'
+	</script>
 	<script src="{% static 'apijs/authentication.js' %}"></script>
 
 
