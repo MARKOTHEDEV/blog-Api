@@ -1,7 +1,7 @@
 # from rest_framework.viewsets import ModelViewSet,ViewSetMixin
 from rest_framework.viewsets import GenericViewSet,ModelViewSet
 from django.contrib.auth import get_user_model
-from rest_framework import mixins
+from rest_framework import mixins, serializers, status
 from rest_framework.authtoken.views import ObtainAuthToken
 from . import serializer
 from rest_framework.renderers import api_settings
@@ -36,9 +36,13 @@ class ProfileViewSet(ModelViewSet):
         
         return self.serializer_class
 
-    # def update(self, request, *args, **kwargs):
-    #     kwargs['partial'] = True
-    #     return super().update(request, *args, **kwargs)
+    def list(self, request):
+        'this return the autheticated user'
+        user = get_user_model().objects.get(id=request.user.id)
+
+        serializer = self.serializer_class(user,many=False)
+
+        return Response(serializer.data)
 
 
 
