@@ -15,6 +15,7 @@ class BlogViewSet(ModelViewSet):
     serializer_class = myserializers.BlogSerializer
     permission_classes  = (permissions.IsAuthenticatedOrReadOnly,custompermissions.AllowAuthorToEditPost,)
     authentication_classes = (TokenAuthentication,)
+    
     # pagination_class = 
 
 

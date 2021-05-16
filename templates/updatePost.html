@@ -42,6 +42,9 @@
                     <input type="title" class="form-control" id="title">
                 </div>
                 
+<br>
+                <h3>If you want to update the pictures just input them here else dont!</h3>
+ <br>
                 <div class="form-group">
                     <label for="introPics">intro picture *</label>
                     <input type="file" class="form-control" id="introPics" >
@@ -135,10 +138,16 @@
             formData.append('blogPost1',this.blogpost1.value)
             formData.append('blogpost2',this.blogpost2.value)
 
+            //this basically mean if the user put in a data then the lenght will be above 0
+            //if it true append the file
+            //else just return empty string
+            this.extrapics.files.length !== 0 ? formData.append('extrapics',this.extrapics.files[0]) :''
+            this.contentHeader.files.length !== 0 ? formData.append('contentHeader',this.contentHeader.files[0]) :''
+            this.introPics.files.length !== 0 ? formData.append('introPics',this.introPics.files[0]) :''
             
-            formData.append('extrapics',this.extrapics.files[0])
-            formData.append('contentHeader',this.contentHeader.files[0])
-            formData.append('introPics',this.introPics.files[0])
+            
+            
+            
            
 
             return formData
