@@ -1,0 +1,212 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block title %}
+      Update Blog Post 
+{% endblock title %}
+
+
+
+
+
+
+{% block content %}
+<div class="container">
+    <form action="#" class="p-5 bg-light">
+
+<!-- 
+                <div class="form-group">
+                <label for="name">Category *</label>
+                <input type="text" class="form-control" id="category">
+                </div> -->
+
+                <select class="form-select" id="category" style="width: 100%; padding:1rem .8rem">
+                    <option value="Politics">Politics</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Sports">Sports</option>
+ 
+                    <!-- the rest wiil be handled with javascript -->
+                </select>
+                  <br><br>
+                <div class="form-group">
+                    <label for="authorName">Author *</label>
+                    <input type="text" class="form-control" id="authorName" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Title *</label>
+                    <input type="title" class="form-control" id="title">
+                </div>
+                
+                <div class="form-group">
+                    <label for="introPics">intro picture *</label>
+                    <input type="file" class="form-control" id="introPics" >
+                </div>
+
+                <div class="form-group">
+                    <label for="contentHeader">contentHeader picture *</label>
+                    <input type="file" class="form-control" id="contentHeader" >
+                </div>
+
+                <div class="form-group">
+                    <label for="extrapics">extrapics picture *</label>
+                    <input type="file" class="form-control" id="extrapics" >
+                </div>
+
+
+
+                <div class="form-group">
+                    <label for="message">Blog post first paragraph</label>
+                    <textarea name="" id="blogpost1" cols="30" rows="10" class="form-control"></textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="message">Blog post second paragraph</label>
+                    <textarea name="" id="blogpost2" cols="30" rows="10" class="form-control"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <input type="submit" value="Post Comment" id="updatePost" class="btn btn-primary">
+                </div>
+
+                
+        </form>
+</div>
+{% endblock content %}
+
+{% block js %}
+    
+{% include './partials/csrftoken.html' %}
+
+
+<script>
+        const BLOGID = "{{ pk }}"
+
+      
+
+
+    class UpdateBlogPost{
+
+            constructor(categoryID,authorNameID,titleID,introPicsID,contentHeaderID,extrapicsID,blogpost1ID,blogpost2ID){
+                this.category = document.querySelector(categoryID)
+                this.authorName = document.querySelector(authorNameID)
+                this.title = document.querySelector(titleID)
+                this.introPics = document.querySelector(introPicsID)
+                this.contentHeader = document.querySelector(contentHeaderID)
+                this.extrapics = document.querySelector(extrapicsID)
+                this.blogpost1 = document.querySelector(blogpost1ID)
+                this.blogpost2 = document.querySelector(blogpost2ID)
+                
+            }
+
+        updateUi(url){
+          this.getDataFromBackend(url)
+            
+            .then(data=>{
+                //load data to inpto the input field
+                console.log(this.introPics.files[0])
+                this.authorName.value =data.authorName
+                this.title.value = data.title
+                this.blogpost1.value = data.blogPost
+                this.blogpost2.value = data.blogPost2
+
+                this.category.value = data.category
+                //this.introPics.files[0]= data.introPics
+
+
+                /*               
+                .src = data.introPics
+                this.contentHeader.value = data.contentHeader*/
+                
+          })
+        }
+
+        getAndsetFormData(){
+           //this sets and return a form data for us to send to the backend
+            let  formData = new FormData()
+            
+            formData.append('category',this.category.value)
+            formData.append('title',this.title.value)
+            formData.append('blogPost1',this.blogpost1.value)
+            formData.append('blogpost2',this.blogpost2.value)
+
+            
+            formData.append('extrapics',this.extrapics.files[0])
+            formData.append('contentHeader',this.contentHeader.files[0])
+            formData.append('introPics',this.introPics.files[0])
+           
+
+            return formData
+
+        }
+        
+        
+        async getDataFromBackend(url){
+            let resp = await fetch(url)
+
+            let respData = await resp.json()
+
+            return respData
+        }
+
+
+        async sendDatatoBackend(url,formData){
+
+            let resp = await fetch(url, {
+              method: 'PATCH',
+              headers: {
+           
+                'Authorization':`Token ${JSON.parse(sessionStorage.getItem('userToken'))}`
+              },
+              body: formData,
+            })
+
+            let respData = await resp.json()
+
+            return respData
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+updateBlogPost = new UpdateBlogPost(
+    '#category','#authorName',"#title",'#introPics',
+    '#contentHeader','#extrapics','#blogpost1','#blogpost2'
+)
+
+//this will update the ui
+updateBlogPost.updateUi(`/api/blog/blog/${BLOGID}/`)
+
+
+
+    let updatePostBtn = document.querySelector('#updatePost')
+        updatePostBtn.addEventListener('click',e=>{
+            e.preventDefault()
+    
+
+           
+            updateBlogPost.sendDatatoBackend(`/api/blog/blog/${BLOGID}/`,updateBlogPost.getAndsetFormData())
+            .then(data=>{
+                console.log(data);
+            })
+        })
+
+</script>
+
+
+{% endblock js %}
+

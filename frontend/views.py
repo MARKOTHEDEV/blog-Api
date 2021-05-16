@@ -1,3 +1,4 @@
+from django.http import request
 from django.shortcuts import render
 
 # Create your views here.
@@ -20,6 +21,11 @@ def blogDetail(request,pk=None):
     return render(request,'single.html',context)
 
 
+def updatePost(request,pk=None):
+    'this view renders the blog-Update markup'
+    context = {'pk':pk}
+
+    return render(request,'updatePost.html',context)
 
 
 def create_account(request):

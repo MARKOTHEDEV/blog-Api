@@ -69,7 +69,7 @@
 
     <div class="pt-5"  id="edit-post-link-Container">
       <button  data-blogID="{{ pk }}" id="deletePost" class="bg-danger btn remove" style="color: white;">Delete</button>
-      <button  data-blogID="{{ pk }}" id="updatePost" class="bg-success btn remove" style="color: white;">Update</button>
+      <a data-blogID="{{ pk }}" id="updatePost" href="{% url 'update-blog' pk %}" class="bg-success btn remove" style="color: white;">Update</a>
     </div>
 
 

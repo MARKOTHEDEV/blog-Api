@@ -80,8 +80,17 @@ work on the detail page:
                     for every link we add an argument to the url like this {% url 'blog-detail' ${post.blog_id} %} --done
                     in our django view we return a context which will be a blog id used to get the blog details... --done
 
-            load json data to detail page arragne it well
+            load json data to detail page arragne it well -- done
             
+Work on the update blog btn and the page were u update the actuall blog:
+        first create a html page
+        then a view
+        then a url
+work on  -- create blog page -- were user can create blog and they must have a tokken and a user obj in the sessionStorage
+
+comment -- update and delete create
+work on the search
+
 FOR auhtentication in the ui
     
     
