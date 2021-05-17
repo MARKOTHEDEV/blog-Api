@@ -202,17 +202,18 @@ updateBlogPost.updateUi(`/api/blog/blog/${BLOGID}/`)
 
 
 
-    let updatePostBtn = document.querySelector('#updatePost')
-        updatePostBtn.addEventListener('click',e=>{
-            e.preventDefault()
-    
+let updatePostBtn = document.querySelector('#updatePost')
+    updatePostBtn.addEventListener('click',e=>{
+        e.preventDefault()
 
-           
-            updateBlogPost.sendDatatoBackend(`/api/blog/blog/${BLOGID}/`,updateBlogPost.getAndsetFormData())
-            .then(data=>{
-                console.log(data);
-            })
+
+        
+        updateBlogPost.sendDatatoBackend(`/api/blog/blog/${BLOGID}/`,updateBlogPost.getAndsetFormData())
+        .then(data=>{
+            console.log(data);
         })
+        
+})
 
 </script>
 
