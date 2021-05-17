@@ -5,7 +5,7 @@ class Authorization{
 
 
     constructor(){
-        
+        this.userToken =  JSON.parse(sessionStorage.getItem('userToken'))
         this.AuthUser = JSON.parse(sessionStorage.getItem('user'));
        
     }
@@ -22,7 +22,16 @@ class Authorization{
             }
     }
 
-
+    checkIfUserIsLoggedIn(){
+        if(user === null && userToken === null){
+            //if the person is not logged in 
+            return false
+        }
+        else{
+            //if the person is  logged in 
+            return true
+        }
+    }
 
 
 }

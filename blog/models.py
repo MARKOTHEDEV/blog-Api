@@ -55,5 +55,12 @@ class Comment(models.Model):
     blog = models.ForeignKey(Blog,on_delete=models.CASCADE)
     comment = models.TextField()
 
+
+
     def __str__(self):
         return f'{self.user} commented on {self.blog}'
+
+    @property
+    def commenterimage(self):
+        'this return the image of the person that creates a comment instance'
+        return self.user.image.url
