@@ -8,5 +8,6 @@ urlpatterns = [
     path('blog-detail/<int:pk>/',views.blogDetail,name='blog-detail'),
     path('update-blog/<int:pk>/',views.updatePost,name='update-blog'),
     path('create-acct/',views.create_account,name='create-acct'),
-    path('login/',views.user_login,name='frontend_login')
+    path('login/',views.user_login,name='frontend_login'),
+    path('create-post/',views.createPost,name='createPost')
 ]

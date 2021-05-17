@@ -5,8 +5,9 @@ let userToken = JSON.parse(sessionStorage.getItem('userToken'))
 let navlinksForAuthUsers = document.querySelector('#navlinksForAuthUsers')
 let navlinksForUnAuthUsers = document.querySelector('#navlinksForUnAuthUsers')
 let userNavLinkName = document.querySelector('#userNavLinkName')
- 
-console.log(navlinksForAuthUsers)
+
+
+
 if(user === null && userToken === null){
     //if the person is not logged in 
     // navlinksForAuthUsers.style.display='none';

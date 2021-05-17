@@ -20,7 +20,8 @@ def blogDetail(request,pk=None):
 
     return render(request,'single.html',context)
 
-
+def createPost(request):
+    return render(request,'createUser.html')
 def updatePost(request,pk=None):
     'this view renders the blog-Update markup'
     context = {'pk':pk}
