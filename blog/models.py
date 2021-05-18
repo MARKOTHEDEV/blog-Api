@@ -64,3 +64,7 @@ class Comment(models.Model):
     def commenterimage(self):
         'this return the image of the person that creates a comment instance'
         return self.user.image.url
+
+    @property
+    def commenterName(self):
+        return self.user.name

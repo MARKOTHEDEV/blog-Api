@@ -58,4 +58,4 @@ class CommentViewset(ModelViewSet):
         
         serializedData = self.serializer_class(allComment,many=True)
 
-        return Response([serializedData.data])
+        return Response(serializedData.data)

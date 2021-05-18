@@ -13,6 +13,7 @@
   <style>
   .updateCommentForm.remove{
       display: none;
+      visibility: hidden;
   }
   .updateCommentForm{
     display: block;
@@ -75,39 +76,16 @@
 
     <div class="pt-5">
         <!-- start of count how many comments exits -->
-        <h3 class="mb-5">6 Comments</h3>
+        <h3 class="mb-5" id="noOfComments">
+          <!-- filled with javascript -->
+        </h3>
         <!-- end of count how many comments exits -->
 
 
         <!-- star list of comments -->
         <ul class="comment-list" id="commentListContainer">
-              <li class="comment" id="authComment">
-                    <div class="vcard">
-                    <img src="images/xperson_1.jpg.pagespeed.ic.yYek0ClmEN.jpg" alt="Image placeholder">
-                    </div>
-                    <div class="comment-body">
-                    <h3>Jean Doe</h3>
-                    <div class="meta">January 9, 2018 at 2:21pm</div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                    <!-- <p><a href="#" class="reply rounded">Reply</a></p> -->
-                    <button class="bg-danger btn" style="color: white;"">Delete</button>
-                    <button class="bg-success btn" style="color: white;">Update</button>
-
-                      <!-- start of updatecommentForm -->
-                          <form action="" class="updateCommentForm remove p-5 bg-light " >
-                            <div class="form-group">
-                              <input type="text" name="" class="form-control"  id="updateComment">
-                                <br>
-                              <button class="bg-success btn" id="submitCommentUpdate" style="color: white;">Update</button>
-                            </div>
-                          </form>
-                      <!-- end of updatecommentForm -->
-
-                    </div>
-              </li>
-
-
-            <li class="comment">
+          <!-- will be created with js -->
+            <!-- <li class="comment">
             <div class="vcard">
               <img src="images/xperson_1.jpg.pagespeed.ic.yYek0ClmEN.jpg" alt="Image placeholder">
             </div>
@@ -118,8 +96,7 @@
                 <p><a href="#" class="reply rounded">Reply</a></p>
                 </div>
         
-            </li>
-
+            </li> -->
 
         </ul>
         <!-- end list of comments -->

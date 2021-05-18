@@ -7,6 +7,7 @@ class Comment extends Authorization{
     constructor(commentContainer){
         super()
         this.commentContainer = document.querySelector(commentContainer);
+        this.noOfComments = document.querySelector('#noOfComments');
 
     }
 
@@ -18,12 +19,60 @@ class Comment extends Authorization{
      return  respData
     }
 
-    displayAllComment(url){
-        this.getAllComment(url)
-        .then(data=>{
-            console.log(data)
-        })
+//     blog: 17
+// ​​
+// comment: "Ye ye by zlatan the post is senseless"
+// ​​
+// commenterimage: "/media/user.jpg"
+// ​​
+// id: 6
+// ​​
+// user: 1
+    displayAllComment(data){
+        console.log(data)
+        let blogCommentBtn;
 
+        this.noOfComments.innerText =`${data.length} Comments`;
+        
+        
+        data.forEach(element=>{
+            //this blgCommentBtn was sperated beacuse of this error  ${} javascript was complainng that i have to many nested ${}
+            blogCommentBtn = `
+            <button class="bg-danger btn" id="deleteCommentBtn" data-commentID="${element.id}"  style="color: white;"">Delete</button>
+          <button class="bg-success btn" id="updateCommentBtn data-commentID="${element.id}" style="color: white;"  >Update</button>
+    
+          `
+        
+        
+            this.commentContainer.innerHTML += `
+            <li class="comment" id="comment">
+                <div class="vcard">
+                <img src="${element.commenterimage}" alt="Image placeholder">
+                </div>
+                <div class="comment-body">
+                <h3>${element.commenterName}</h3>
+                
+                <p>${element.comment}</p>
+                <br>
+                ${
+                    //before the user can update check if he is logged in
+                    this.AuthUser !== null ?
+                            // so if this is true show the update and delete button
+                        element.user ===this.AuthUser.id ? blogCommentBtn
+                       :
+                        //else dont show any thing  that the reason for the empty string
+                       ''
+                :  //else dont show any thing 
+                ''
+
+
+                }
+                
+          
+            </li>
+            <br>
+            `
+        })
     }
 
 }
@@ -32,4 +81,38 @@ class Comment extends Authorization{
 
 comment = new Comment('#commentListContainer')
 
-comment.displayAllComment(`/api/blog/comment/${blogId}/`)
+comment.getAllComment(`/api/blog/comment/${blogId}/`)
+.then(data=>{
+    comment.displayAllComment(data)
+
+
+    // since it an async code we need to do this in the promise
+    // or else "deleteCommentBtn" -- will return false because it ran before the api call finished
+    let deleteCommentBtn = document.querySelector('#deleteCommentBtn')
+
+    // console.log(deleteCommentBtn)
+    deleteCommentBtn.addEventListener('click',e=>{
+        e.preventDefault()
+     
+ 
+
+        fetch(`/api/blog/comment/${e.target.dataset.commentid}/`, {
+            method: 'DELETE',
+            headers:{
+                Authorization:`token ${JSON.parse(sessionStorage.getItem('userToken'))}`
+            }
+          })
+          .then(data=>data.status)
+          .then(data=>{
+              if(data==204){
+                  location.reload()
+              }
+          })
+   
+    })
+
+})
+
+
+
+

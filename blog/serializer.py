@@ -34,10 +34,13 @@ class CommentSerializer(serializers.ModelSerializer):
         """Meta definition for serializers."""
 
         model = blog_models.Comment
-        fields = ('id','blog','user','comment','commenterimage')
+        fields = ('id','blog','user','comment','commenterimage','commenterName')
         # read_only = ['id']
         extra_kwargs={
             'id':{'read_only':True},
             'user':{'read_only':True},
+            
             'commenterimage':{'read_only':True},
+            'commenterName':{'read_only':True},
+
         }
