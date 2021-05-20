@@ -13,12 +13,21 @@
   <style>
   .updateCommentForm.remove{
       display: none;
-      visibility: hidden;
+
   }
   .updateCommentForm{
-    display: block;
-  }
+    display: flex;
+    flex-direction:row;
+    margin-top: 8% ;
 
+  }
+  
+  @media screen and (max-width:360px) {
+    .updateCommentForm{
+      flex-direction: column;
+      
+      }
+  }
 
 
   </style>
@@ -73,7 +82,6 @@
       <a data-blogID="{{ pk }}" id="updatePost" href="{% url 'update-blog' pk %}" class="bg-success btn remove" style="color: white;">Update</a>
     </div>
 
-
     <div class="pt-5">
         <!-- start of count how many comments exits -->
         <h3 class="mb-5" id="noOfComments">
@@ -85,7 +93,31 @@
         <!-- star list of comments -->
         <ul class="comment-list" id="commentListContainer">
           <!-- will be created with js -->
-   
+          <li class="comment">
+            <div class="vcard">
+            <img src="images/xperson_1.jpg.pagespeed.ic.yYek0ClmEN.jpg" alt="Image placeholder">
+            </div>
+            <div class="comment-body">
+            <h3>Jean Doe</h3>
+            <div class="meta">January 9, 2018 at 2:21pm</div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+            <p><a href="#" class="reply rounded">Reply</a></p>
+            </div>
+                <ul class="children">
+                    <li class="comment">
+                      <div class="vcard">
+                      <img src="images/xperson_1.jpg.pagespeed.ic.yYek0ClmEN.jpg" alt="Image placeholder">
+                      </div>
+                      <div class="comment-body">
+                      <h3>Jean Doe</h3>
+                      <div class="meta">January 9, 2018 at 2:21pm</div>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
+                      <p><a href="#" class="reply rounded">Reply</a></p>
+                      </div>
+                  
+                    </li>
+                </ul>
+            </li>
 
         </ul>
         <!-- end list of comments -->
