@@ -29,14 +29,6 @@ class BlogViewSet(ModelViewSet):
         '''
         serializer.save(author=self.request.user)
 
-    # def get_serializer_class(self):
-    #     if self.action == 'upload_pics':
-    #         # print('heloo world')
-    #         return myserializers.BlogImageSerializer
-
-    #     return super().get_serializer_class()
-
-  
 
     
     

@@ -92,7 +92,8 @@ Work on the update blog btn and the page were u update the actuall blog:
 work on  -- create blog page -- were user can create blog and they must have a tokken and a user obj in the sessionStorage
 
 WORK ON COMMENT
-comment -- update and delete create
+comment -- update and delete --- done
+     create --not done
 
 FOR auhtentication in the ui
     
@@ -100,9 +101,11 @@ FOR auhtentication in the ui
 CHECK ur session storage to see if the user is logged in with a loken:
     if yes then he can comment
 work on comment
-create a delete and update button
-create a update page -- has to do with forms
+create a delete and update button -done
+create a update page -- has to do with forms -done
 
+
+create comment - Front end
 go back to the index page and work on the getting posts based on categories
 work on the search feature
 
