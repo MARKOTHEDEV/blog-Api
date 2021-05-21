@@ -60,7 +60,7 @@ class BlogDetails extends Authorization{
 
     displayBlogMainContent(data){
         //this display the blog post
-
+        console.log(data)
         this.ui.mainBlogDetails.innerHTML =`
                 <p id="firstPartOfContent">
                     ${data.blogPost}
@@ -77,8 +77,7 @@ class BlogDetails extends Authorization{
             </div>
             </div>
             <p>
-            ${data.blogPost2}
-                
+                ${data.blogPost2}
             </p>
         
         
