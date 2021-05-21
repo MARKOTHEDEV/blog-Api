@@ -6,8 +6,12 @@ class Comment extends Authorization{
 
     constructor(commentContainer){
         super()
+        // this holds all the comment that will be listed in the wepage
         this.commentContainer = document.querySelector(commentContainer);
+        // this just holds the div that shows how many comment we have 
         this.noOfComments = document.querySelector('#noOfComments');
+        // this holds the form to create a comment
+        this.createCommentWrapper = document.querySelector('#createCommentWrapper');
 
     }
 
@@ -22,17 +26,9 @@ class Comment extends Authorization{
 
     }
 
-//     blog: 17
-// ​​
-// comment: "Ye ye by zlatan the post is senseless"
-// ​​
-// commenterimage: "/media/user.jpg"
-// ​​
-// id: 6
-// ​​
-// user: 1
+
     displayAllComment(data){
-        console.log(data)
+        // console.log(data)
         let blogCommentBtn,CommentUpdateForm;
 
         this.noOfComments.innerText =`${data.length} Comments`;
@@ -40,21 +36,18 @@ class Comment extends Authorization{
         this.commentContainer.innerHTML = '';
         data.forEach(element=>{
             //this blgCommentBtn was sperated beacuse of this error  ${} javascript was complainng that i have to many nested ${}
-            blogCommentBtn = `
-            <button class="bg-danger btn deleteCommentBtn" data-commentID="${element.id}"  style="color: white;">Delete</button>
-          <button class="bg-success btn updateCommentBtn " data-commentID="${element.id}" style="color: white;"  >Update</button>
-    
-          `
-            // this is the form that will handle our updating of comment
-         CommentUpdateForm =`
-         <form action="#" class=" updateCommentForm remove">
-            <input type="text" class="form-control updateCommentInput" placeholder="Correct Your comment....">
-            
-            <input type="submit" class="btn bg-success submitCommentUpdate" data-commentID="${element.id}" style="color:white;" value="Update">
-         </form>
-
-
-         `
+                blogCommentBtn = `
+                <button class="bg-danger btn deleteCommentBtn" data-commentID="${element.id}"  style="color: white;">Delete</button>
+            <button class="bg-success btn updateCommentBtn " data-commentID="${element.id}" style="color: white;"  >Update</button>    
+                `
+                // this is the form that will handle our updating of comment
+            CommentUpdateForm =`
+                <form action="#" class=" updateCommentForm remove">
+                    <input type="text" class="form-control updateCommentInput" placeholder="Correct Your comment....">
+                    
+                    <input type="submit" class="btn bg-success submitCommentUpdate" data-commentID="${element.id}" style="color:white;" value="Update">
+                </form>
+            `
 
         
             this.commentContainer.innerHTML += `
@@ -97,6 +90,32 @@ class Comment extends Authorization{
             <br>
             `
         })
+
+        // create the form that creates comment that if user is logged in
+        
+        if(this.AuthUser !== null){
+            this.createCommentWrapper.innerHTML = ` 
+            
+                    <h3 class="mb-5">Leave a comment</h3>
+                    <form id="createCommentForm" class="p-5 bg-light">
+                        <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text"  class="form-control" value="${this.AuthUser.name}" id="name" disabled>
+                        </div>
+            
+                        <div class="form-group">
+                        <label for="message">Comment</label>
+                        <textarea name="" id="CreatecommentInput" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Post Comment" id="" class="btn btn-primary">
+                        </div>
+                    </form>
+            `
+        }
+
+
+
     }
 
 }
@@ -112,7 +131,26 @@ class Comment extends Authorization{
 
 
 
+async function sendDataToBackend(url,requestType,blogId,data=null){
 
+
+    let resp = await fetch(url, {
+        method: requestType, // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken':csrftoken,
+         Authorization:`token ${JSON.parse(sessionStorage.getItem('userToken'))}`,
+
+        },
+        body: JSON.stringify(data),
+      })
+
+    let respData = await resp.json()
+    let status =  resp.status
+    return {
+        respData,status
+    }
+}   
 
 
 comment = new Comment('#commentListContainer');
@@ -153,7 +191,7 @@ comment.getAllComment(`/api/blog/comment/${blogId}/`)
             //  for Sending it to the backend
             // this query will go up to the parent element and search for the particular comment we want to update
             let commentbodyContent = e.target.parentElement.querySelector('.comment-body p')
-            
+            updateCommentForm =e.target.parentElement.querySelector('.updateCommentForm');
             updateCommentForm.classList.remove('remove')
             let updateCommentInput = updateCommentForm.querySelector('.updateCommentInput')
             updateCommentInput.value = commentbodyContent.innerText
@@ -163,7 +201,7 @@ comment.getAllComment(`/api/blog/comment/${blogId}/`)
         if(e.target.className.includes('submitCommentUpdate')){
             // this is what actually sends it to the back End
             let updateCommentInputField = updateCommentForm.querySelector('.updateCommentInput')
-            console.log(e.target.dataset.commentid)
+            // console.log(e.target.dataset.commentid)
             let data = {'comment':updateCommentInputField.value}
             
 
@@ -192,6 +230,26 @@ comment.getAllComment(`/api/blog/comment/${blogId}/`)
         
     
     })
+
+
+    let createCommentForm = document.querySelector('#createCommentForm')
+
+    createCommentForm.addEventListener('submit',e=>{
+        e.preventDefault()
+        let Newcomment = e.target[1].value;
+        let url ='/api/blog/comment/'
+        sendDataToBackend(url,'POST',blogId,data={"comment":Newcomment,"blog":blogId},userToken)
+        .then(data=>{
+            console.log(data)
+            // 201 status code means created
+            if(data.status === 201){
+                comment.getAllComment(`/api/blog/comment/${blogId}/`)
+
+            }
+
+        })
+    })
+
 
 
 })

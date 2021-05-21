@@ -60,7 +60,7 @@ class BlogDetails extends Authorization{
 
     displayBlogMainContent(data){
         //this display the blog post
-        console.log(data)
+        // console.log(data)
         this.ui.mainBlogDetails.innerHTML =`
                 <p id="firstPartOfContent">
                     ${data.blogPost}
