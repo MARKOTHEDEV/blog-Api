@@ -15,10 +15,34 @@ class Comment extends Authorization{
 
     }
 
+    displayCreateCommentForm(){
+        if(this.AuthUser !== null && this.createCommentWrapper.innerHTML !== '' ){
+            this.createCommentWrapper.innerHTML = ` 
+            
+                    <h3 class="mb-5">Leave a comment</h3>
+                    <form id="createCommentForm" class="p-5 bg-light">
+                        <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text"  class="form-control" value="${this.AuthUser.name}" id="name" disabled>
+                        </div>
+            
+                        <div class="form-group">
+                        <label for="message">Comment</label>
+                        <textarea name="" id="CreatecommentInput" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                          
+                        <input type="submit"  id="submitNewComment" value="Post Comment" class="btn btn-primary">
+                        </div>
+                    </form>
+            `
+        }
+    }
+
    async getAllComment(url){
      let resp = await fetch(url)
     
-     let respData = await resp.json()
+     let respData =  await resp.json()
 
     //  return  respData
     
@@ -34,93 +58,134 @@ class Comment extends Authorization{
         this.noOfComments.innerText =`${data.length} Comments`;
         
         this.commentContainer.innerHTML = '';
-        data.forEach(element=>{
-            //this blgCommentBtn was sperated beacuse of this error  ${} javascript was complainng that i have to many nested ${}
-                blogCommentBtn = `
-                <button class="bg-danger btn deleteCommentBtn" data-commentID="${element.id}"  style="color: white;">Delete</button>
-            <button class="bg-success btn updateCommentBtn " data-commentID="${element.id}" style="color: white;"  >Update</button>    
-                `
-                // this is the form that will handle our updating of comment
-            CommentUpdateForm =`
-                <form action="#" class=" updateCommentForm remove">
-                    <input type="text" class="form-control updateCommentInput" placeholder="Correct Your comment....">
-                    
-                    <input type="submit" class="btn bg-success submitCommentUpdate" data-commentID="${element.id}" style="color:white;" value="Update">
-                </form>
-            `
-
         
-            this.commentContainer.innerHTML += `
-            <li class="comment" id="comment">
-                <div class="vcard">
-                <img src="${element.commenterimage}" alt="Image placeholder">
-                </div>
-                <div class="comment-body">
-                <h3>${element.commenterName}</h3>
-                
-                <p>${element.comment}</p>
-                <br>
-                ${
-                    //before the user can update check if he is logged in
-                    this.AuthUser !== null ?
-                            // so if this is true show the update and delete button
-                        element.user ===this.AuthUser.id ? blogCommentBtn
-                       :
-                        //else dont show any thing  that the reason for the empty string
-                       ''
-                :  //else dont show any thing 
-                ''
-             }
-                <br>
-             ${
-                //before the user can update check if he is logged in
-                    this.AuthUser !== null ?
-                            // so if this is true show the update and delete button
-                        element.user ===this.AuthUser.id ? CommentUpdateForm
-                    :
-                        //else dont show any thing  that the reason for the empty string
-                    ''
-                :  //else dont show any thing 
-                ''
-            }
-                            
+        if(Array.isArray(data)){
+           
 
+                data.forEach(element=>{
+                    //this blgCommentBtn was sperated beacuse of this error  ${} javascript was complainng that i have to many nested ${}
+                        blogCommentBtn = `
+                        <button class="bg-danger btn deleteCommentBtn" data-commentID="${element.id}"  style="color: white;">Delete</button>
+                    <button class="bg-success btn updateCommentBtn " data-commentID="${element.id}" style="color: white;"  >Update</button>    
+                        `
+                        // this is the form that will handle our updating of comment
+                    CommentUpdateForm =`
+                        <form action="#" class=" updateCommentForm remove">
+                            <input type="text" class="form-control updateCommentInput" placeholder="Correct Your comment....">
+                            
+                            <input type="submit" class="btn bg-success submitCommentUpdate" data-commentID="${element.id}" style="color:white;" value="Update">
+                        </form>
+                    `
+        
+                
+                    this.commentContainer.innerHTML += `
+                    <li class="comment" id="comment">
+                        <div class="vcard">
+                        <img src="${element.commenterimage}" alt="Image placeholder">
+                        </div>
+                        <div class="comment-body">
+                        <h3>${element.commenterName}</h3>
                         
-            </li>
-            <br>
+                        <p>${element.comment}</p>
+                        <br>
+                        ${
+                            //before the user can update check if he is logged in
+                            this.AuthUser !== null ?
+                                    // so if this is true show the update and delete button
+                                element.user ===this.AuthUser.id ? blogCommentBtn
+                            :
+                                //else dont show any thing  that the reason for the empty string
+                            ''
+                        :  //else dont show any thing 
+                        ''
+                    }
+                        <br>
+                    ${
+                        //before the user can update check if he is logged in
+                            this.AuthUser !== null ?
+                                    // so if this is true show the update and delete button
+                                element.user ===this.AuthUser.id ? CommentUpdateForm
+                            :
+                                //else dont show any thing  that the reason for the empty string
+                            ''
+                        :  //else dont show any thing 
+                        ''
+                    }
+                                    
+        
+                                
+                    </li>
+                    <br>
+                    `
+                })
+
+        }
+        else{
+            console.log(data,"YYU ")
+            blogCommentBtn = `
+            <button class="bg-danger btn deleteCommentBtn" data-commentID="${data.id}"  style="color: white;">Delete</button>
+        <button class="bg-success btn updateCommentBtn " data-commentID="${data.id}" style="color: white;"  >Update</button>    
             `
-        })
+            // this is the form that will handle our updating of comment
+        CommentUpdateForm =`
+            <form action="#" class=" updateCommentForm remove">
+                <input type="text" class="form-control updateCommentInput" placeholder="Correct Your comment....">
+                
+                <input type="submit" class="btn bg-success submitCommentUpdate" data-commentID="${data.id}" style="color:white;" value="Update">
+            </form>
+        `
+
+    
+        this.commentContainer.innerHTML += `
+        <li class="comment" id="comment">
+            <div class="vcard">
+            <img src="${data.commenterimage}" alt="Image placeholder">
+            </div>
+            <div class="comment-body">
+            <h3>${data.commenterName}</h3>
+            
+            <p>${data.comment}</p>
+            <br>
+            ${
+                //before the user can update check if he is logged in
+                this.AuthUser !== null ?
+                        // so if this is true show the update and delete button
+                    data.user ===this.AuthUser.id ? blogCommentBtn
+                :
+                    //else dont show any thing  that the reason for the empty string
+                ''
+            :  //else dont show any thing 
+            ''
+        }
+            <br>
+        ${
+            //before the user can update check if he is logged in
+                this.AuthUser !== null ?
+                        // so if this is true show the update and delete button
+                    data.user ===this.AuthUser.id ? CommentUpdateForm
+                :
+                    //else dont show any thing  that the reason for the empty string
+                ''
+            :  //else dont show any thing 
+            ''
+        }
+                        
+
+                    
+        </li>
+        <br>
+        ` 
+        }
 
         // create the form that creates comment that if user is logged in
         
-        if(this.AuthUser !== null){
-            this.createCommentWrapper.innerHTML = ` 
-            
-                    <h3 class="mb-5">Leave a comment</h3>
-                    <form id="createCommentForm" class="p-5 bg-light">
-                        <div class="form-group">
-                        <label for="name">Name *</label>
-                        <input type="text"  class="form-control" value="${this.AuthUser.name}" id="name" disabled>
-                        </div>
-            
-                        <div class="form-group">
-                        <label for="message">Comment</label>
-                        <textarea name="" id="CreatecommentInput" cols="30" rows="10" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Post Comment" id="" class="btn btn-primary">
-                        </div>
-                    </form>
-            `
-        }
+
 
 
 
     }
 
 }
-
-
 
 
 
@@ -154,6 +219,24 @@ async function sendDataToBackend(url,requestType,blogId,data=null){
 
 
 comment = new Comment('#commentListContainer');
+
+comment.displayCreateCommentForm()
+
+
+let submitNewComment = document.querySelector('#submitNewComment')
+// let createCommentForm = document.querySelector('#createCommentForm')
+
+submitNewComment.addEventListener('click',e=>{
+    e.preventDefault()
+    let createForm = e.target.parentElement.parentElement
+    
+    let Newcomment = createForm[1].value;
+    let url ='/api/blog/comment/'
+    sendDataToBackend(url,'POST',blogId,data={"comment":Newcomment,"blog":blogId})
+    .then(data=>{
+        comment.getAllComment(`/api/blog/comment/${blogId}/`)
+    })        
+})
 
 comment.getAllComment(`/api/blog/comment/${blogId}/`)
 .then(data=>{
@@ -220,6 +303,8 @@ comment.getAllComment(`/api/blog/comment/${blogId}/`)
                
                 if(data==200){
                     comment.getAllComment(`/api/blog/comment/${blogId}/`)
+
+                    // console.log(data)
                     
                 }      
             })
@@ -231,29 +316,13 @@ comment.getAllComment(`/api/blog/comment/${blogId}/`)
     
     })
 
+ 
+    
+    
 
-    let createCommentForm = document.querySelector('#createCommentForm')
-
-    createCommentForm.addEventListener('submit',e=>{
-        e.preventDefault()
-        let Newcomment = e.target[1].value;
-        let url ='/api/blog/comment/'
-        sendDataToBackend(url,'POST',blogId,data={"comment":Newcomment,"blog":blogId},userToken)
-        .then(data=>{
-            console.log(data)
-            // 201 status code means created
-            if(data.status === 201){
-                comment.getAllComment(`/api/blog/comment/${blogId}/`)
-
-            }
-
-        })
-    })
-
-
-
+    
 })
+
+
 //end of getAllcomment promise
-
-
 
