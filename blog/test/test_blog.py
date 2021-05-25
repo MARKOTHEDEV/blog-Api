@@ -145,12 +145,50 @@ class TestBlogAuthUser(TestCase):
 
 
 
+class TestBlogUser(TestCase):
+    'this class test both auth and unauth user on how they use the non-authticated part of the website'
+
+    def setUp(self):
+        self.client = APIClient()
+        
+        
+
+    def test_get_post_by_categories(self):
+        """i will create 3 blog post 2 belonging to the tech category and 1 Travel
+            and will test to get the travel category
+        """
+        
+        paylaod =   {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}  
+        author = create_user(**paylaod)
+        blogpostForTech = {'title':'heloo world','blogPost':'thedhbfdbfrd','category':'Tech','author':author}
+        techPost1 = create_blogpost(**blogpostForTech)
+        techPost2 = create_blogpost(**blogpostForTech)
+        blogpostForTravel = {'title':'heloo world','blogPost':'thedhbfdbfrd','category':'Travel','author':author}
+        print(blogpostForTravel.get('category'))
+        TravelPost1 = create_blogpost(**blogpostForTravel)
+        
+        # /api/blog/blog/politics/filterby/ this is the url that filters accorign to category
+        resp = self.client.get(f'/api/blog/blog/Travel/filterbycategory/')
+        print(resp.data)
+        self.assertEqual(len(resp.data),1)
+        self.assertEqual(resp.data[0].get('category'),'Travel')
+
+        
+
+
+
+        
+
+
 class TestUnAuthBlogUSer(TestCase):
     'this class test the un auth users=>on how they use the blog'
 
     def setUp(self):
         self.client = APIClient()
         self.payload = {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}
+    
+
+
 
 
 

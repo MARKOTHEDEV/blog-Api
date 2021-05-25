@@ -18,6 +18,15 @@ class BlogViewSet(ModelViewSet):
     
     # pagination_class = 
 
+    @action(methods=['GET'],detail=True,url_path='filterbycategory')
+    def filter_by_categories(self, request, pk=None):
+        'this view renders data based on the categorie that was inputed'
+        # self.kwargs.get('pk') in the sense doesnt mean primry key it the categorie that was parsed into the url
+        filted_dataBlogPost = blog_models.Blog.objects.filter(category__icontains=self.kwargs.get('pk'))
+        newSerializedData = self.serializer_class(filted_dataBlogPost,many=True)
+        return Response(newSerializedData.data)
+
+
 
     def perform_create(self,serializer):
 
