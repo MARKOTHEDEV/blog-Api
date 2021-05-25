@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block title %}
+        Mini Blog
+{% endblock title %}
+
+
+
+{% block extraCss %}
+      
+
+<style>
+
+    
+
+        
+  .prev[data-prev='null']{
+    visibility: hidden;
+  }
+  .prev:not([data-prev='null']){
+ 
+    visibility: visible;
+  }
+  
+  .next[data-next='null']{
+    visibility: hidden;
+  }
+  .next:not([data-next='null']){
+ 
+    visibility: visible;
+  }
+
+
+
+</style>
+
+{% endblock extraCss %}
+
+
+
+{% block content %}
+
+
+<div class="py-5 bg-light">
+<div class="container">
+<div class="row">
+<div class="col-md-6">
+<span>Category</span>
+<h3>{{ category }}</h3>
+<!-- <p>Category description here.. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam error eius quo, officiis non maxime quos reiciendis perferendis doloremque maiores!</p> -->
+</div>
+</div>
+</div>
+</div>
+<div class="site-section bg-white">
+<div class="container">
+    <div class="row" id="allPostContainer">
+    
+    </div>
+    <div class="row text-center pt-5 border-top">
+      <div class="col-md-12">
+      <div class="custom-pagination">
+      <!-- <span>1</span> -->
+      
+      <a href="" id="prev" class="prev">Prev</a>
+      <a href="" id="next"  class="next">Next</a>
+      
+
+      <!-- <button>></button> -->
+      </div>
+      </div>
+      </div>
+</div>
+</div>
+
+
+               
+{% endblock content %}
+
+
+  
+
+
+{% block js %}
+           
+
+
+<script>
+  const category = '{{ category }}'
+  
+  const urlTogetBlogPost = `/api/blog/blog/${category}/filterbycategory/`
+  console.log(urlTogetBlogPost)
+</script>
+
+
+<script src="{% static 'apijs/index.js' %}"></script>
+{% endblock js %}

@@ -24,11 +24,13 @@ class UI{
         
         BlogPosts.results.forEach(post => {
             // console.log(post)
+            // location.origin -- will get the website name
+            // and we just append the etra link to it using good old concatenation style
             this.allPostContainer.innerHTML += `
             
             <div class="col-lg-4 mb-4">
                         <div class="entry2">
-                              <a  data-id="" href="blog-detail/${post.id}/"><img src="${post.introPics}" alt="Image" class="img-fluid rounded"></a>
+                              <a  data-id="" href="${location.origin+"/blog-detail/"+post.id+"/"}"><img src="${post.introPics}" alt="Image" class="img-fluid rounded"></a>
                               <div class="excerpt">
                                     <span class="post-category text-white  ${
                                         
@@ -43,7 +45,7 @@ class UI{
                                         ListOfcategory.Entertainment
                                         
                                         } mb-3">${post.category}</span>
-                                     <h2><a href="blog-detail/${post.id}/">${post.title}</a></h2>
+                                     <h2><a href="${location.origin+"/blog-detail/"+post.id+"/"}">${post.title}</a></h2>
                                   <div class="post-meta align-items-center text-left clearfix">
                                       <figure class="author-figure mb-0 mr-3 float-left"><img src="${post.authorImage}" alt="Image" class="img-fluid"></figure>
                                       <span class="d-inline-block mt-1">By <a href="#">${post.authorName}</a></span>
@@ -52,7 +54,7 @@ class UI{
                             
                                   <p>${post.introContent}</p>
                         
-                                  <p><a href="blog-detail/${post.id}/">Read More</a></p>
+                                  <p><a href="${location.origin+"/blog-detail/"+post.id+"/"}">Read More</a></p>
                               </div>
                         </div>
                   </div>
@@ -89,8 +91,8 @@ class BlogIndex{
       let   resp =  await fetch(url)
 
       let   respData =await resp.json()
-        // console.log(respData.results)
-
+      let respStatus = resp.status
+    
       this.ui.displayContent(respData)
     
     }
@@ -104,11 +106,13 @@ class BlogIndex{
 }
 
 
-
+// location.origin
 
 blog = new BlogIndex()
 console.log('Yo')
-blog.getAllBlogPost('/api/blog/blog/')
+// urlTogetBlogPost this can be either url to get all blog post or url to get filterd post
+// as at now index and category.html are sharing this js file
+blog.getAllBlogPost(urlTogetBlogPost)
 
 let prevBtn = document.querySelector('#prev');
 let nextBtn = document.querySelector('#next')

@@ -23,7 +23,16 @@ class BlogViewSet(ModelViewSet):
         'this view renders data based on the categorie that was inputed'
         # self.kwargs.get('pk') in the sense doesnt mean primry key it the categorie that was parsed into the url
         filted_dataBlogPost = blog_models.Blog.objects.filter(category__icontains=self.kwargs.get('pk'))
+        
+        page = self.paginate_queryset(filted_dataBlogPost)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+            
         newSerializedData = self.serializer_class(filted_dataBlogPost,many=True)
+
+
         return Response(newSerializedData.data)
 
 

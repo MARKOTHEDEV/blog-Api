@@ -74,7 +74,7 @@
           </div>
           </div>
           </div>
-</div>
+      </div>
 <!-- end of recent blog section -->
 
 
@@ -82,40 +82,47 @@
       <div class="container">
         <div class="row align-items-stretch retro-layout">
             <div class="col-md-5 order-md-2">
-            <a href="single.html" class="hentry img-1 h-100 gradient" style="background-image:url(images/ximg_4.jpg.pagespeed.ic.D4YeG3NCGP.jpg)">
-            <span class="post-category text-white bg-danger">Travel</span>
+            <a href="{% url 'blogcategories' 'Politics' %}" class="hentry img-1 h-100 gradient" style="background-image:url({% static 'images/politics.jpg' %})">
+            <span class="post-category text-white bg-danger">Politics</span>
             <div class="text">
-            <h2>The 20 Biggest Fintech Companies In America 2019</h2>
-            <span>February 12, 2019</span>
+            <h2>Get Your self Up and Runnig with what is Currently Going on In the World Of Politics</h2>
+            <!-- <span>February 12, 2019</span> -->
             </div>
             </a>
             </div>
 
 
             <div class="col-md-7">
-            <a href="single.html" class="hentry img-2 v-height mb30 gradient" style="background-image:url(images/ximg_1.jpg.pagespeed.ic.gajmyLtNWE.jpg)">
-            <span class="post-category text-white bg-success">Nature</span>
-            <div class="text text-sm">
-            <h2>The 20 Biggest Fintech Companies In America 2019</h2>
-            <span>February 12, 2019</span>
-            </div>
-            </a>
-            <div class="two-col d-block d-md-flex">
-            <a href="single.html" class="hentry v-height img-2 gradient" style="background-image:url(images/img_2.jpg)">
-            <span class="post-category text-white bg-primary">Sports</span>
-            <div class="text text-sm">
-            <h2>The 20 Biggest Fintech Companies In America 2019</h2>
-            <span>February 12, 2019</span>
-            </div>
-            </a>
-            <a href="single.html" class="hentry v-height img-2 ml-auto gradient" style="background-image:url(images/ximg_3.jpg.pagespeed.ic._K7Dj2rr38.jpg)">
-            <span class="post-category text-white bg-warning">Lifestyle</span>
-            <div class="text text-sm">
-            <h2>The 20 Biggest Fintech Companies In America 2019</h2>
-            <span>February 12, 2019</span>
-            </div>
-            </a>
-            </div>
+                  <a href="{% url 'blogcategories' 'Tech' %}" class="hentry img-2 v-height mb30 gradient" style="background-image:url({% static 'images/tech.jpg' %})">
+                    <span class="post-category text-white bg-success">Tech</span>
+                    <div class="text text-sm">
+                    <h2>Learn,build and Stay Updated In the World Of Tech...</h2>
+                    <!-- <span>February 12, 2019</span> -->
+                    </div>
+                  </a>
+                  <a href="{% url 'blogcategories' 'Travel' %}" class="hentry img-2 v-height mb30 gradient" style="background-image:url({% static 'images/travel.jpg' %})">
+                    <span class="post-category text-white bg-success">Travel</span>
+                    <div class="text text-sm">
+                    <h2>Read All Travel Related Post And Expirence The Green Mother Of Earth</h2>
+                    <!-- <span>February 12, 2019</span> -->
+                    </div>
+                  </a>
+                <div class="two-col d-block d-md-flex">
+                <a href="{% url 'blogcategories' 'Sports' %}" class="hentry v-height img-2 gradient" style="background-image:url({% static 'images/sports.jpg' %})">
+                <span class="post-category text-white bg-primary">Sports</span>
+                <div class="text text-sm">
+                <h2>Yes Every Human Loves Sport But being Updated Is another Ball Game</h2>
+                <!-- <span>February 12, 2019</span> -->
+                </div>
+                </a>
+                <a href="{% url 'blogcategories' 'Entertainment' %}" class="hentry v-height img-2 ml-auto gradient" style="background-image:url({% static 'images/entertainment.jpg' %})">
+                <span class="post-category text-white bg-warning">Entertainment</span>
+                <div class="text text-sm">
+                <h2>Dont! just stay there Thinking you have seen it all Come See More Here!</h2>
+                <!-- <span>February 12, 2019</span> -->
+                </div>
+                </a>
+                </div>
             </div>
         </div>
       </div>
@@ -129,6 +136,12 @@
 
 
 {% block js %}
+
+
+<script>
+  
+  const urlTogetBlogPost = '/api/blog/blog/'
+</script>
            
 <script src="{% static 'apijs/index.js' %}"></script>
 {% endblock js %}

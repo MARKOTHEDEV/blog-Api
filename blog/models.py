@@ -11,10 +11,10 @@ class Blog(models.Model):
 
     authorChoice = (
         ('Politics','Politics'),
-        ('Tech','Tech'),
         ('Entertainment','Entertainment'),
         ('Travel','Travel'),
         ('Sports','Sports'),
+        ('Tech','Tech'),
     )
     category = models.CharField(choices=authorChoice,max_length=500,blank=True)
     author = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
