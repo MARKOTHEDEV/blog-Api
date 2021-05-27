@@ -90,8 +90,10 @@
 
 <script>
   const category = '{{ category }}'
+
   
-  const urlTogetBlogPost = `/api/blog/blog/${category}/filterbycategory/`
+ // const urlTogetBlogPost = `/api/blog/blog/${category}/filterbycategory/`
+  const urlTogetBlogPost = `/api/blog/blog/?category=${category}`
   console.log(urlTogetBlogPost)
 </script>
 

@@ -169,7 +169,7 @@ class TestBlogUser(TestCase):
         TravelPost1 = create_blogpost(**blogpostForTravel)
         
         TravelPost1SerializedData = serializer.BlogSerializer(TravelPost1)
-    #     # /api/blog/blog/politics/filterby/ this is the url that filters accorign to category
+        # /api/blog/blog/politics/filterby/ this is the url that filters accorign to category
         resp = self.client.get(CREATE_POST_URL,{'category':'Travel'})
         print('resp data',len(resp.data.get('results')))
         print('-------------')
