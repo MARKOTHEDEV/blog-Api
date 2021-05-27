@@ -6,6 +6,9 @@ class UI{
         this.nextBtn = document.querySelector('#next')
     }
 
+    resetAllPostContainer(){
+        this.allPostContainer.innerHTML =''
+    }
 
     //this method display all the content on the index.html page
     displayContent(BlogPosts){
@@ -13,7 +16,7 @@ class UI{
 
         // we going to da the pagination settings here
         this.setPagination(BlogPosts)
-
+        // console.log(BlogPosts)
         //based on the categories  we apply the right bootstrap background color  
         let ListOfcategory =    {'Politics':'bg-danger',
                             'Travel':'bg-success',
@@ -92,6 +95,8 @@ class BlogIndex{
 
       let   respData =await resp.json()
       let respStatus = resp.status
+    //   console.log(respData)
+
     
       this.ui.displayContent(respData)
     
@@ -161,5 +166,16 @@ nextBtn.addEventListener('click',e=>{
 
 })
 
+
+let searchTextByAuthorOrPostName = document.querySelector('#searchTextByAuthorOrPostName')
+
+searchTextByAuthorOrPostName.addEventListener('keyup',e=>{
+    let searchText = e.target.value
+    // console.log(blog)
+    // this method rest the ui For to display the content
+    blog.ui.resetAllPostContainer()
+    blog.getAllBlogPost(`/api/blog/blog/?category=${searchText}`)
+
+})
 
 // create a search event listener 

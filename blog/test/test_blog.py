@@ -171,9 +171,6 @@ class TestBlogUser(TestCase):
         TravelPost1SerializedData = serializer.BlogSerializer(TravelPost1)
         # /api/blog/blog/politics/filterby/ this is the url that filters accorign to category
         resp = self.client.get(CREATE_POST_URL,{'category':'Travel'})
-        print('resp data',len(resp.data.get('results')))
-        print('-------------')
-        print('serialied data',TravelPost1SerializedData.data)
         # we only have one category with the name of Travel in the database 
         # so we expecting one results
         self.assertEqual(len(resp.data.get('results')),1)
@@ -181,13 +178,20 @@ class TestBlogUser(TestCase):
         self.assertEqual(resp.data.get('results')[0].get('category'),TravelPost1SerializedData.data.get('category'))
 
     
-    # def test_searchFunctionality(self):
-    #     "this is to test the search function"
-    #     paylaod =   {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}  
-    #     author = create_user(**paylaod)
-    #     techPost1 = create_blogpost(title='heloo world',blogPost='thedhbfdbfrd',category='Tech',author=author)
+    def test_searchFunctionality(self):
+        "this is to test the search function by title"
+        paylaod =   {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}  
+        author = create_user(**paylaod)
+        techPost1 = create_blogpost(title='heloo world',blogPost='thedhbfdbfrd',category='Tech',author=author)
+        techPost2 = create_blogpost(title='Yo',blogPost='hfekwdefevfedh',category='Tech',author=author)
         # techPost2 = create_blogpost(**blogpostForTech)
+        TechPost1SerializedData = serializer.BlogSerializer(techPost1)
+        resp = self.client.get(CREATE_POST_URL,{'searchPost':'heloo world'})
         
+
+        self.assertEqual(len(resp.data.get('results')),1)
+        self.assertEqual(resp.data.get('results')[0].get('title'),TechPost1SerializedData.data.get('title'))
+
 
 
         

@@ -8,6 +8,7 @@ from rest_framework import permissions, serializers
 from . import permissions as custompermissions
 from . import serializer as myserializers
 from rest_framework.response import Response
+from django.db.models import Q 
 
 
 
@@ -21,12 +22,20 @@ class BlogViewSet(ModelViewSet):
 
     def get_queryset(self):
         category =self.request.query_params.get('category')
+        byAuthorOrPostTitle =self.request.query_params.get('searchPost')
         if category:
             "we will return all the categtegory"
             queryset = self.queryset.filter(category=category)
             return queryset
+        elif byAuthorOrPostTitle:
+            "we will return all the content that has the title or author name"
+            "useing the django Q object to perform the or operations"
+            queryset = self.queryset.filter(
+                Q(author__email__icontains=byAuthorOrPostTitle) | Q(title__icontains=byAuthorOrPostTitle)
+            )
+            return queryset
 
-        # serialized_data = self.serializer_class(self.queryset)
+
         return self.queryset
 
 
