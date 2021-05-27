@@ -174,7 +174,7 @@ searchTextByAuthorOrPostName.addEventListener('keyup',e=>{
     // console.log(blog)
     // this method rest the ui For to display the content
     blog.ui.resetAllPostContainer()
-    blog.getAllBlogPost(`/api/blog/blog/?category=${searchText}`)
+    blog.getAllBlogPost(`/api/blog/blog/?searchPost=${searchText}`)
 
 })
 
