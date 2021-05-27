@@ -160,3 +160,6 @@ nextBtn.addEventListener('click',e=>{
 
 
 })
+
+
+// create a search event listener 

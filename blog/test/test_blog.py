@@ -2,8 +2,9 @@ from django.test import TestCase
 from rest_framework.test import APIClient
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from  blog import models
+from  blog import models,serializer
 from rest_framework import status
+
 
 import blog
 
@@ -164,23 +165,35 @@ class TestBlogUser(TestCase):
         techPost1 = create_blogpost(**blogpostForTech)
         techPost2 = create_blogpost(**blogpostForTech)
         blogpostForTravel = {'title':'heloo world','blogPost':'thedhbfdbfrd','category':'Travel','author':author}
-        print(blogpostForTravel.get('category'))
+        # print(blogpostForTravel.get('category'))
         TravelPost1 = create_blogpost(**blogpostForTravel)
         
-        # /api/blog/blog/politics/filterby/ this is the url that filters accorign to category
-        resp = self.client.get(f'/api/blog/blog/Travel/filterbycategory/')
-        print(resp.data)
-        self.assertEqual(len(resp.data),1)
-        self.assertEqual(resp.data[0].get('category'),'Travel')
+        TravelPost1SerializedData = serializer.BlogSerializer(TravelPost1)
+    #     # /api/blog/blog/politics/filterby/ this is the url that filters accorign to category
+        resp = self.client.get(CREATE_POST_URL,{'category':'Travel'})
+        print('resp data',len(resp.data.get('results')))
+        print('-------------')
+        print('serialied data',TravelPost1SerializedData.data)
+        # we only have one category with the name of Travel in the database 
+        # so we expecting one results
+        self.assertEqual(len(resp.data.get('results')),1)
+        # this is to test if the category are same
+        self.assertEqual(resp.data.get('results')[0].get('category'),TravelPost1SerializedData.data.get('category'))
+
+    
+    # def test_searchFunctionality(self):
+    #     "this is to test the search function"
+    #     paylaod =   {'name':'matthew','email':'marko2@gmail.com','password':'YouCrazyWIthProgramming'}  
+    #     author = create_user(**paylaod)
+    #     techPost1 = create_blogpost(title='heloo world',blogPost='thedhbfdbfrd',category='Tech',author=author)
+        # techPost2 = create_blogpost(**blogpostForTech)
+        
+
 
         
 
 
-
-        
-
-
-class TestUnAuthBlogUSer(TestCase):
+class TestUnAuthBlogUSer(TestCase): 
     'this class test the un auth users=>on how they use the blog'
 
     def setUp(self):
@@ -223,3 +236,7 @@ class TestUnAuthBlogUSer(TestCase):
         resp = self.client.get(update_post_url(blogPost.id))
         # print(resp.data)
         self.assertEqual(resp.status_code,status.HTTP_200_OK)
+
+
+
+

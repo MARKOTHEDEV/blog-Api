@@ -1,3 +1,4 @@
+from django.db.models import query
 from blog import models as blog_models
 from django.contrib.auth import get_user_model
 from rest_framework.viewsets import ModelViewSet
@@ -17,6 +18,15 @@ class BlogViewSet(ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     
     # pagination_class = 
+
+    def get_queryset(self):
+        category =self.request.query_params.get('category')
+        if category:
+            queryset = self.queryset.filter(category=category)
+            return queryset
+
+        # serialized_data = self.serializer_class(self.queryset)
+        return self.queryset
 
     @action(methods=['GET'],detail=True,url_path='filterbycategory')
     def filter_by_categories(self, request, pk=None):
