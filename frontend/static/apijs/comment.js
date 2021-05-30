@@ -121,7 +121,7 @@ class Comment extends Authorization{
 
         }
         else{
-            console.log(data,"YYU ")
+            // console.log(data,"YYU ")
             blogCommentBtn = `
             <button class="bg-danger btn deleteCommentBtn" data-commentID="${data.id}"  style="color: white;">Delete</button>
         <button class="bg-success btn updateCommentBtn " data-commentID="${data.id}" style="color: white;"  >Update</button>    
@@ -222,8 +222,10 @@ comment = new Comment('#commentListContainer');
 
 comment.displayCreateCommentForm()
 
-
-let submitNewComment = document.querySelector('#submitNewComment')
+function loadSubmitNewComment(){
+    'THIS WAS CREATED BECAUSE WHEN WE LOAD THE PAGE CHANCES ARE THE API HAS NOT RETURN THE COMMENTS YET'
+    "SO WE CREATED THE FUNCTION IN A WAY THAT ONCE THE COMMENT ARRIVE IN THE HTML IT WILL LOAD OUR CREAD FORM"
+    let submitNewComment = document.querySelector('#submitNewComment')
 // let createCommentForm = document.querySelector('#createCommentForm')
 
 submitNewComment.addEventListener('click',e=>{
@@ -236,10 +238,13 @@ submitNewComment.addEventListener('click',e=>{
     .then(data=>{
         comment.getAllComment(`/api/blog/comment/${blogId}/`)
     })        
-})
+    })
+
+}
 
 comment.getAllComment(`/api/blog/comment/${blogId}/`)
 .then(data=>{
+    loadSubmitNewComment()
     // since it an async code we need to do this in the promise
     // or else "deleteCommentBtn" -- will return false because it ran before the api call finished
     // let deleteCommentBtn = document.querySelector('#deleteCommentBtn')
