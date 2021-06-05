@@ -1,7 +1,7 @@
 
 
 class Comment extends Authorization{
-
+    
 
 
     constructor(commentContainer){

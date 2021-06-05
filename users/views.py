@@ -49,7 +49,7 @@ class ProfileViewSet(ModelViewSet):
     @action(detail=True,methods=['post',],url_path='upload_image')
     def upload_imageAction(self, request, pk=None):
         user = self.get_object()
-        print(request.data)
+        # print(request.data)
         imageserialzer = serializer.UserProfileImageSerializer(user,data=request.data)
         if imageserialzer.is_valid():
             imageserialzer.save()

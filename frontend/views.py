@@ -42,3 +42,7 @@ def create_account(request):
 
 def user_login(request):
     return render(request,'login.html')
+
+
+def profilePage(request):
+    return render(request,'profile.html')

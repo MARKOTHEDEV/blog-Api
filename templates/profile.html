@@ -1,0 +1,238 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block title %}
+      Update Blog Post 
+{% endblock title %}
+
+
+{% block extraCss %}
+            <style>
+             .user_image_container{
+                width: 150px;
+                height: 150px;
+                margin: 2% auto;
+                position: relative;
+            }  
+            .user_image_container img{
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+            }   
+
+            #userImageFile{
+                display: none;
+                
+            }
+            .userImageBtn{
+                position: absolute;
+                bottom: 0;
+                right: 10%;
+                background-color: rgba(0, 0, 255, 0.555);
+                color: white;
+                height: 30px;
+                width:  30px;
+                text-align: center;
+                padding: .2rem;
+                font-size: .9rem;
+                border-radius: 50%;
+                cursor: pointer;
+                
+            }
+            
+            </style>
+{% endblock extraCss %}
+
+
+
+{% block content %}
+<div class="container">
+    <form action="#" class="p-5 bg-light">
+
+
+                <div class="user_image_container">
+                    <img src="" alt="" id="userImage">
+                    <label for="userImageFile" class="userImageBtn"><i class="fas fa-pen"></i></label>
+                    <input type="file" id="userImageFile">
+                </div>
+
+
+                  <br><br>
+                <div class="form-group">
+                    <label for="authorName">Email *</label>
+                    <input type="email" class="form-control" id="email" >
+                </div>
+
+                <div class="form-group">
+                    <label for="title">Name *</label>
+                    <input type="title" class="form-control" id="name">
+                </div>
+                
+
+
+
+
+                <div class="form-group">
+                    <label for="message">Bio</label>
+                    <textarea name="" id="bio" cols="30" rows="10" class="form-control"></textarea>
+                </div>
+
+                
+                <div class="form-group">
+                    <input type="submit" value="Post Comment" id="updateProfileBtn" class="btn btn-primary">
+                </div>
+
+                
+        </form>
+</div>
+{% endblock content %}
+
+{% block js %}
+    
+{% include './partials/csrftoken.html' %}
+
+
+<script>
+        const BLOGID = "{{ pk }}"
+
+      
+
+
+    class UserProfile{
+
+        constructor(email,name,bio,userImage){
+            this.email = document.querySelector(email)
+            this.name = document.querySelector(name)
+            this.bio = document.querySelector(bio)
+            this.userImage = document.querySelector(userImage)
+            //this token will be use to authenticate our request if needed
+            this.userToken =JSON.parse(sessionStorage.getItem('userToken'))
+            
+        }
+
+        updateUi(url){
+            //we call the getDataFromBackend to 
+          this.getDataFromBackend(url)
+            .then(data=>{
+                //load data to inpto the input field
+     
+                this.email.value =data.email
+                this.name.value = data.name
+                this.bio.value = data.bio
+                this.userImage.src = data.image
+  
+          })
+        }
+
+        getAndsetFormData(newImage=null){
+           //this sets and return a form data for us to send to the backend
+            let  formData = new FormData()
+            
+       
+            //this is to set the user image in the formdata
+            
+            if(newImage !== null){
+                //this means it only th image the person is updating at this point
+                formData.append('image',newImage)
+                
+            }else{
+                formData.append('email',this.email.value)
+                formData.append('name',this.name.value)
+                formData.append('bio',this.bio.value)
+            }
+            
+            
+            
+           
+
+            return formData
+
+        }
+        
+        
+        async getDataFromBackend(url){
+            let resp = await fetch(url,{
+                headers:{
+                    'Authorization':`Token ${this.userToken}`
+                }
+            })
+
+            let respData = await resp.json()
+
+            return respData
+        }
+
+
+        async sendDatatoBackend(url,method,formData){
+
+            let resp = await fetch(url, {
+              "method": method,
+              headers: {           
+                'Authorization':`Token ${this.userToken}`,
+                'X-CSRFToken':csrftoken
+            },
+              body: formData,
+            })
+
+            let respData = await resp.json()
+
+            return respData
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+updateProfile = new UserProfile('#email','#name','#bio','#userImage' )
+
+
+
+//this will update the ui
+updateProfile.updateUi('/api/users/myprofile/')
+
+
+let userImageFile = document.querySelector('#userImageFile')
+
+document.querySelector('#userImageFile').addEventListener('change',e=>{
+   
+    console.log(userImageFile.files[0])
+    updateProfile.sendDatatoBackend(`/api/users/myprofile/${JSON.parse(sessionStorage.getItem('user')).id}/upload_image/`,'POST',updateProfile.getAndsetFormData(newImage=userImageFile.files[0]))
+    .then(data=>{
+        //when i recive the data i re get the pics
+        updateProfile.updateUi('/api/users/myprofile/')
+    })
+    
+    .catch(err=>{
+        alert("We Are Sorry Some Error Occured Please reload the page")
+    })
+
+})
+
+
+
+let updatePostBtn = document.querySelector('#updateProfileBtn')
+    updatePostBtn.addEventListener('click',e=>{
+        e.preventDefault()
+        //So on Click of the update button we get  all the data abd set it to a FormData
+        //Then send it to the backend using fectch api
+        updateProfile.sendDatatoBackend(`/api/users/myprofile/${JSON.parse(sessionStorage.getItem('user')).id}/`,'PATCH',updateProfile.getAndsetFormData())
+        .catch(err=>{
+            alert("We Are Sorry Some Error Occured Please reload the page")
+        })
+        
+})
+
+</script>
+
+
+{% endblock js %}
