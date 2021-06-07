@@ -17,11 +17,13 @@ class BlogSerializer(serializers.ModelSerializer):
         'introPics','dateCreated',
         'authorImage','introContent',
         'blogPost2','extrapics',
+        'authorBio'
         )
         # read_only = ['id']
         extra_kwargs={
             'id':{'read_only':True},
             'author':{'read_only':True},
+            'authorBio':{'read_only':True},
         }
 
 

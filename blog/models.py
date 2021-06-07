@@ -47,7 +47,9 @@ class Blog(models.Model):
     def introContent(self):
         'this what u see before u click on read more..'
         return f'{self.blogPost[0:30]}....'
-
+    @property
+    def authorBio(self):
+        return self.author.bio
 
 
 class Comment(models.Model):

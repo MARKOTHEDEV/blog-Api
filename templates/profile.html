@@ -157,9 +157,9 @@
                 formData.append('email',this.email.value)
                 formData.append('name',this.name.value)
                 formData.append('bio',this.bio.value)
-                formData.append('password',this.newPassword.value)
+             
+                this.newPassword.value!==''?formData.append('password',this.newPassword.value):'the user did not update his password'
                 //reset the password
-                tthis.newPassword.value = ''
             }
             
             

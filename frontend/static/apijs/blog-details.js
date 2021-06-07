@@ -10,8 +10,9 @@ class UI{
         this.hero_section_authorName = document.querySelector('#hero_section_authorName')
         this.hero_section_Datecreated = document.querySelector('#hero_section_Datecreated');
         this.hero_section_authorImage = document.querySelector('#hero_section_authorImage')
-        this.mainBlogDetails = document.querySelector('#mainBlogDetails') 
-        this.editPostLinkContainer = document.querySelector('#edit-post-link-Container')       
+        this.mainBlogDetails = document.querySelector('#mainBlogDetails') ;
+        this.editPostLinkContainer = document.querySelector('#edit-post-link-Container')    ;
+        this.userBioContainer = document.querySelector('#userBioContainer')   
     }
 
 
@@ -85,12 +86,33 @@ class BlogDetails extends Authorization{
 
     }
 
+    //this method display the Author Bio
+    displayBio(data){
+        
+        this.ui.userBioContainer.innerHTML=`
+        <div class="bio text-center">
+        <img src="${data.authorImage}" alt="Image Placeholder" class="img-fluid mb-5" style="height:150px;width:150px;border-radius:50%;">
+          <div class="bio-body">
+          <h2>${data.authorName}</h2>
+          <p class="mb-4">${data.authorBio}</p>
+          
+          <p class="social">
+          <a href="#" class="p-2"><span class="fa fa-facebook"></span></a>
+          <a href="#" class="p-2"><span class="fa fa-twitter"></span></a>
+          <a href="#" class="p-2"><span class="fa fa-instagram"></span></a>
+          <a href="#" class="p-2"><span class="fa fa-youtube-play"></span></a>
+          </p>
+          </div>
+        </div>
+        `
+    }
+
 
 
     displayBlogDetail(data){
       
         // first set the h1 or the title of the page
-        
+        this.displayBio(data)
         this.displayHeroSection(data)
         this.displayBlogMainContent(data)
 
