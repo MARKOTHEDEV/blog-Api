@@ -46,3 +46,7 @@ def user_login(request):
 
 def profilePage(request):
     return render(request,'profile.html')
+
+
+def forgotPasswordPage(request):
+    return render(request,'forgot-password.html')

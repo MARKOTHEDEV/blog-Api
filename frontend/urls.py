@@ -11,5 +11,6 @@ urlpatterns = [
     path('login/',views.user_login,name='frontend_login'),
     path('create-post/',views.createPost,name='createPost'),
     path('blog-categories/<str:category>/',views.blogcategories,name='blogcategories'),
-    path('profile/',views.profilePage,name='profile-page')
+    path('profile/',views.profilePage,name='profile-page'),
+    path('forgot-password/',views.forgotPasswordPage,name='forgotPasswordPage'),
 ]

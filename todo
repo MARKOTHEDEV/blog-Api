@@ -110,6 +110,16 @@ go back to the index page and work on the getting posts based on categories --do
 work on the search feature -done
 
 
-work on profile page -- change user pics,change user bio and email 
-work on forgot passowrd in logged in page -- done
-WORK ON SHOWING THE AUTHOR BIO ON THE DETAIL OF THIER POST --today
+work on profile page -- change user pics,change user bio and email --done
+work on forgot passowrd in logged in page -- not done:  
+            Steps :
+                    1 -- enter your email - my code will make sure the email exits
+                    2 -- when i recive the email i will create a random passowrd and send to the person email
+                    3 -- in the email will i will tell the person to go to his profile and update his password that if he likes
+            what to create ?
+                        create template for the email let a modal appear -- to tell the person the email was sent
+                        write the api and test
+                        write the front end logic
+work on the footer content
+remove the search bar from pages that doesnt need it --
+WORK ON SHOWING THE AUTHOR BIO ON THE DETAIL OF THIER POST --done
