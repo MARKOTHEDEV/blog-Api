@@ -75,3 +75,8 @@ class LoginSerializer(serializers.Serializer):
         data['user'] = user
        
         return data
+
+
+class ForgotPasswordSerializer(serializers.Serializer):
+
+    email = serializers.EmailField()

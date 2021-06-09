@@ -9,6 +9,12 @@ from rest_framework import permissions,authentication
 from . import permissions as mypermissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from django.core.mail import send_mail
+from django.conf import settings
+import random,string,smtplib
+
+
 
 class CreateUser(GenericViewSet,mixins.CreateModelMixin):
     serializer_class = serializer.CreateUserSerializer
@@ -55,3 +61,55 @@ class ProfileViewSet(ModelViewSet):
             imageserialzer.save()
 
         return Response(imageserialzer.data)
+
+
+
+
+class ForgotPasswordApiView(APIView):
+    serializer_class = serializer.ForgotPasswordSerializer
+
+    def _random_password(self):
+        'this is a private function that returns 7 character string'
+        randomStringOfCharacters = ''.join(random.choices(string.ascii_uppercase + string.digits, k = 9))
+        return randomStringOfCharacters
+
+    def post(self, request, format=None):
+        """
+        this will get the user email which is unquie and reset his password then send that
+        reset password to the email so they can login and change thier password in the profile
+        """
+        Serialized_data = self.serializer_class(data=request.data)
+        if Serialized_data.is_valid():
+            email = Serialized_data.data.get('email')
+            if get_user_model().objects.filter(email=email).exists():
+                "if the email exits in the data base get that user and change his password"
+                user = get_user_model().objects.get(email=email)
+                newpassword = self._random_password()
+                try:
+                    # afer we send the mail and it went successully then we can change the password
+                    send_mail(
+                        f'Hey {user.name}  Your Password',
+                        """ 
+                            Follow This Steps To Stay Secured\n\n
+                            This is Your New Password '{newpassword}',
+                            now login with your new password 
+                            After you login go to your profile Scroll Down 
+                            And CareFully Change The Password to Your Password To What You Like!!!
+        
+                        """,
+                        settings.EMAIL_HOST_USER #From:this will be the site Email,
+                        [user.email] ,#To: this will be the user that has forgoten his password,
+                        fail_silently=False,    
+                    )
+                    user.set_password(newpassword)
+                    user.save()
+                except smtplib.SMTPException:
+                    return Response(data={"error":'Network Error please Try again'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response(data={"success":'Succefully Reset Password'},status=status.HTTP_200_OK)
+            else:
+                return Response(data={"error":"No User With This email"})
+
+                
+
+        else:
+            return Response(data={"error":"Please enter a valid Email"})

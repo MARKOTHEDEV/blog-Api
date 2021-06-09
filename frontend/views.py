@@ -50,3 +50,7 @@ def profilePage(request):
 
 def forgotPasswordPage(request):
     return render(request,'forgot-password.html')
+
+def passwordConfirm(request):
+    "this template tells the user that the email has been sent"
+    return render(request,'password-reset-confirm.html')

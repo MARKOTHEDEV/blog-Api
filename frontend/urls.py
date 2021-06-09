@@ -13,4 +13,5 @@ urlpatterns = [
     path('blog-categories/<str:category>/',views.blogcategories,name='blogcategories'),
     path('profile/',views.profilePage,name='profile-page'),
     path('forgot-password/',views.forgotPasswordPage,name='forgotPasswordPage'),
+    path('passwordConfirm/',views.passwordConfirm,name='passwordConfirm')
 ]
