@@ -1,4 +1,5 @@
 # from rest_framework.viewsets import ModelViewSet,ViewSetMixin
+from os import stat
 from rest_framework.viewsets import GenericViewSet,ModelViewSet
 from django.contrib.auth import get_user_model
 from rest_framework import mixins, serializers, status
@@ -87,18 +88,18 @@ class ForgotPasswordApiView(APIView):
                 newpassword = self._random_password()
                 try:
                     # afer we send the mail and it went successully then we can change the password
+                
                     send_mail(
-                        f'Hey {user.name}  Your Password',
-                        """ 
+                        f'Hey {user.name}  Your Has Arrived Password',
+                        f""" 
                             Follow This Steps To Stay Secured\n\n
                             This is Your New Password '{newpassword}',
                             now login with your new password 
                             After you login go to your profile Scroll Down 
-                            And CareFully Change The Password to Your Password To What You Like!!!
-        
+                            And CareFully Change The Password to Your Password To What You Like!!!      
                         """,
-                        settings.EMAIL_HOST_USER #From:this will be the site Email,
-                        [user.email] ,#To: this will be the user that has forgoten his password,
+                        settings.EMAIL_HOST_USER ,
+                        [user.email,] ,#To: this will be the user that has forgoten his password,
                         fail_silently=False,    
                     )
                     user.set_password(newpassword)
@@ -112,4 +113,4 @@ class ForgotPasswordApiView(APIView):
                 
 
         else:
-            return Response(data={"error":"Please enter a valid Email"})
+            return Response(data={"error":"Please enter a valid Email"},status=status.HTTP_400_BAD_REQUEST)
