@@ -13,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.core.mail import send_mail
 from django.conf import settings
-import random,string,smtplib
+import random,string,socket
 
 
 
@@ -104,7 +104,7 @@ class ForgotPasswordApiView(APIView):
                     )
                     user.set_password(newpassword)
                     user.save()
-                except smtplib.SMTPException:
+                except socket.error:
                     return Response(data={"error":'Network Error please Try again'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                 return Response(data={"success":'Succefully Reset Password'},status=status.HTTP_200_OK)
             else:
