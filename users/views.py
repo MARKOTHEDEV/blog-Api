@@ -90,7 +90,7 @@ class ForgotPasswordApiView(APIView):
                     # afer we send the mail and it went successully then we can change the password
                 
                     send_mail(
-                        f'Hey {user.name}  Your Has Arrived Password',
+                        f'Hey {user.name}  Your Password Has Arrived ',
                         f""" 
                             Follow This Steps To Stay Secured\n\n
                             This is Your New Password '{newpassword}',

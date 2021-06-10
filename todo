@@ -111,7 +111,7 @@ work on the search feature -done
 
 
 work on profile page -- change user pics,change user bio and email --done
-work on forgot passowrd in logged in page -- not done:  
+work on forgot passowrd in logged in page -- done:  
             Steps :
                     1 -- enter your email - my code will make sure the email exits
                     2 -- when i recive the email i will create a random passowrd and send to the person email
@@ -123,3 +123,4 @@ work on forgot passowrd in logged in page -- not done:
 work on the footer content
 remove the search bar from pages that doesnt need it -- done
 WORK ON SHOWING THE AUTHOR BIO ON THE DETAIL OF THIER POST --done
+remains animations
