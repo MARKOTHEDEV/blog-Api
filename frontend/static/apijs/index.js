@@ -88,9 +88,10 @@ class BlogIndex{
     }
 
 
-
+    
     async getAllBlogPost(url){
-
+        //anytime the website want to get post trigger the  animation
+        animeBox.classList.remove('remove')
       let   resp =  await fetch(url)
 
       let   respData =await resp.json()
@@ -99,7 +100,7 @@ class BlogIndex{
 
     
       this.ui.displayContent(respData)
-    
+      animeBox.classList.add('remove')
     }
 
     
