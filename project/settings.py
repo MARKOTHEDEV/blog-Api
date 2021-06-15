@@ -164,4 +164,4 @@ EMAIL_USE_TLS = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-django_heroku(locals())
+django_heroku.settings(locals())
