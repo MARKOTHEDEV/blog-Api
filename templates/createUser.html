@@ -179,10 +179,13 @@ createPostForm.addEventListener('submit',e=>{
 
 
         
+    animeBox.classList.add('remove')
       
         createpost.sendDatatoBackend(`/api/blog/blog/`,createpost.getAndsetFormData())
         .then(data=>{
-            console.log(data);
+    animeBox.classList.add('remove')
+
+//            console.log(data);
             location.href = "{% url 'list-of-all-blogpost' %}"
         })
        
