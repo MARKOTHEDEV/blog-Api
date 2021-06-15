@@ -22,6 +22,42 @@ def create_user(**kwargs):
 
 # /api/blog/comment/    
 
+
+class TestPublicComment(TestCase):
+    'this class test the comment u dont need to be a login or created user to access this info u can be anybody'
+
+    def setUp(self):
+        self.client = APIClient()
+        userPayload = {'name':'matthew','email':'marko5552@gmail.com','password':'Y8687ouCrazyWIthProgramming'}
+        
+        # we created a blog post her so we i wont repeat my self
+        self.author = create_user(**userPayload)
+        blogParams = {'author':self.author,'title':'jimmy Zang','blogPost':'Lorem ipsom'}
+        self.blog = create_blogpost(**blogParams)
+
+
+
+
+    def test_anyuserGet_Blog_comment(self):
+        'this will Test getting all comment asociated with a particular Post'
+        comment1 = blog_models.Comment.objects.create(user=self.author,blog=self.blog,comment="Yo nigga")
+        comment2 = blog_models.Comment.objects.create(user=self.author,blog=self.blog,comment="Yo nigga by force")
+        # now that we have two comment in the database it time to make GET request to the viewset
+        # we are expecting to get two comment we created earlier
+
+        resp = self.client.get(comment_url_with_argument(self.blog.id))
+
+   
+        # check if the our request was OK
+        self.assertEqual(resp.status_code,status.HTTP_200_OK)
+        # check if we got two comment we created earier
+        self.assertEqual(len(resp.data),2)
+        self.assertEqual(resp.data[0].get('id'),comment1.id)
+        self.assertEqual(resp.data[1].get('id'),comment2.id)
+      
+
+
+
 class TestAuthComment(TestCase):
 
     def setUp(self):

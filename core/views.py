@@ -12,6 +12,8 @@ def documentation(request):
         {'users':[
             {'login end point-->to get your Token':'/api/users/login/'},
             {'create a new user':'/api/users/create-user/'},
+            {"to get user in a much easier way u need to send a get request with a Token auth":"/api/users/myprofile/"},
+            ["Both work in the same manner"],
             {'To get a specific user-- get req':'/api/users/myprofile/user.id/'},
             {'To update user --- patch':'/api/users/myprofile/user.id/'},
             {'To delete  user --- delete request':'/api/users/myprofile/user.id/'},

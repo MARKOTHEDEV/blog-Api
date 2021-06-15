@@ -12,6 +12,7 @@ router.register('myprofile',views.ProfileViewSet)
 urlpatterns = [
     path('',include(router.urls)),
     path('login/',views.LoginUser.as_view(),name='user_login'),
+    path('forgotpassword/',views.ForgotPasswordApiView.as_view(),name='ForgotPasswordApiView')
 
 ]
 
